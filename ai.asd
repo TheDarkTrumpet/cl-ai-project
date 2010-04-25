@@ -20,5 +20,5 @@
   :description "This is the glue and what makes the plugin files actually work"
   :components ((:file "lib/package")
 	       (:file "lib/main"))
-  :depends-on (:bayes)
+  :depends-on (:ai-bayes)
   :serial t)
