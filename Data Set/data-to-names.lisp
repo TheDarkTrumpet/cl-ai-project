@@ -19,7 +19,7 @@
 (defvar *data-file-w* #P"/Users/dthole/programming/common-lisp/cl-k-nearest-neighbors/Data\ Set/agaricus-lepiota.csv"
 	"This is where the csv data file is to be written to, note - if you run this you'll likely need to change the path")
 
-(defvar *translation-layer*
+(setf *translation-layer*
   '(((E . "edible")      ;Class
      (P . "poisonous"))
     ((B . "bell")        ;1. Cap-shape
@@ -147,7 +147,7 @@
      (P . "paths")
      (U . "urban")
      (W . "waste")
-     (D . "woods")))
+     (D . "woods"))))
   "This is a direct translation of part 7 in the agaricus-lepiota.names file - yes, this was painful to do manually")
 
 (defun process-translation (csvline)
@@ -159,11 +159,13 @@ doing a 1-1 conversion of the data"
 		     (intern (string-upcase x))
 		     y))))
 
-(defvar *z*)
 (defun data-to-names ()
   "Opens the .data file, and creates the same as a csv, doing a lookup in our table defined under *names-attributes* and does a replace for the shorthand to the longhand version.
 The purpose of doing this is to not make weka sad when it comes to testing what's a good algorithm to use."
-  (with-open-file (s *data-file-r* :direction :input :if-does-not-exist :error)
-    (setf *z* (read-csv-line s))
-    (process-translation *z*)
-    ))
+  (with-open-file (r *data-file-r* :direction :input :if-does-not-exist :error)
+    (with-open-file (w *data-file-w* :direction :output :if-does-not-exist :create :if-exists :overwrite)
+      (loop for line = (read-csv-line r)
+	 for pline = (process-translation line)
+	 while line
+	 do 
+	   (write-csv-line pline w)))))
