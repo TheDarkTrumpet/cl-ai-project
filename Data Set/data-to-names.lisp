@@ -13,10 +13,10 @@
 
 (in-package :data-to-names)
 
-(defvar *data-file-r* #P"/Users/dthole/programming/common-lisp/cl-k-nearest-neighbors/Data\ Set/agaricus-lepiota.data"
+(defvar *data-file-r* #P"/Users/dthole/programming/common-lisp/cl-ai-project/Data\ Set/agaricus-lepiota.data"
 	"This is where the original data file is at, note - if you run this you'll likely need to change the path")
 
-(defvar *data-file-w* #P"/Users/dthole/programming/common-lisp/cl-k-nearest-neighbors/Data\ Set/agaricus-lepiota.csv"
+(defvar *data-file-w* #P"/Users/dthole/programming/common-lisp/cl-ai-project/Data\ Set/agaricus-lepiota.csv"
 	"This is where the csv data file is to be written to, note - if you run this you'll likely need to change the path")
 
 (setf *translation-layer*
