@@ -19,6 +19,8 @@
   :license "LGPL"
   :description "This is the glue and what makes the plugin files actually work"
   :components ((:file "lib/package")
+	       (:file "lib/variables")
+	       (:file "lib/utils")
 	       (:file "lib/main"))
-  :depends-on (:ai-bayes)
+  :depends-on (:fare-csv :ai-bayes)
   :serial t)
