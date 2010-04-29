@@ -3,9 +3,6 @@
 
 (in-package :ai)
 
-(defvar *cached-variables* nil
-  "Used by the with-all-variables macro to cache the variables upon reading of the file.  It increases speed on something not changed that much")
-
 (defmacro with-data-file ((s file) &body body)
   `(with-open-file (,s ,file :direction :input :if-does-not-exist :error)
      ,@body))
@@ -36,6 +33,14 @@ then remove duplicates afterwards"
 	   (loop for x = 0 then (+ 1 x) for cols in line do
 		(setf (elt allvars x) (append (elt allvars x) (set-difference (list cols) (elt allvars x) :test #'string-equal)))) finally (return allvars) ))))
 
+(defun loadEntireDataSet (&key (file *data-set-file*) (cachep t))
+  (let ((datas nil))
+    (with-data-file (s file)
+      (loop for line = (read-csv-line s) while line collect line into l finally (setf datas l)))
+    (when cachep
+      (setf *cached-data-set* datas))
+    datas))
+	 
 (defun getClassVariables (&key (index 0) (file *data-set-file*))
   "Given an a default index 0 (first column), we parse the data set file to determine all the possible value options for our class."
   (with-all-variables (vars :file file)

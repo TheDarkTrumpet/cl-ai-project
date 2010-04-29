@@ -7,3 +7,9 @@
 (in-package :ai)
 
 (defvar *data-set-file* #P"/Users/dthole/programming/common-lisp/cl-ai-project/Data\ Set/agaricus-lepiota.csv")
+
+(defvar *cached-variables* nil
+  "Used by the with-all-variables macro to cache the variables upon reading of the file.  It increases speed on something not changed that much")
+
+(defvar *cached-data-set* nil
+  "Used by loadEntireDataSet to cache the data into this variable")
