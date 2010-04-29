@@ -23,7 +23,7 @@ will not store the cache"
 	(setf ,v (getAllVariables :file ,file))))
      ,@body))
 
-(defmacro with-data-set ((v *key (cachep t) (file *data-set-file*)) &body body)
+(defmacro with-data-set ((v &key (cachep t) (file *data-set-file*)) &body body)
   `(let ((,v nil))
      (cond
        (,cachep
@@ -39,10 +39,9 @@ will not store the cache"
 (defun getAllVariables (&key (file *data-set-file*))
   "Parses through the entire data-set file grabbing all the variables.  The one issue is this is pretty inefficient in terms of memory, we load everything,
 then remove duplicates afterwards"
-  (with-data-file (s file)
-    (let* ((fline (read-csv-line s))
-	   (allvars (map 'list #'(lambda (x) (list x)) fline)))
-      (loop for line = (read-csv-line s) while line do
+  (with-data-set (s :file file)
+    (let ((allvars (make-list (length (first s)))))
+      (loop for line in s while line do
 	   (loop for x = 0 then (+ 1 x) for cols in line do
 		(setf (elt allvars x) (append (elt allvars x) (set-difference (list cols) (elt allvars x) :test #'string-equal)))) finally (return allvars) ))))
 
