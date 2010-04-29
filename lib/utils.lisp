@@ -3,8 +3,27 @@
 
 (in-package :ai)
 
+(defvar *cached-variables* nil
+  "Used by the with-all-variables macro to cache the variables upon reading of the file.  It increases speed on something not changed that much")
+
 (defmacro with-data-file ((s file) &body body)
   `(with-open-file (,s ,file :direction :input :if-does-not-exist :error)
+     ,@body))
+
+(defmacro with-all-variables ((v &key (cachep t) (file *data-set-file*)) &body body)
+  "Stores a temporary copy of the variable from getAllVariables into v, and we use the cached
+variable, if it's available, if cachep is set. If cachep is nil, we'll reload the file and
+will not store the cache"
+  `(progn
+     (cond
+      (,cachep
+       (if (null *cached-variables*)
+	   (progn
+	     (setf *cached-variables* (getAllVariables :file ,file))
+	     (setf ,v *cached-variables*))
+	   (setf ,v *cached-variables*)))
+      (t
+       (setf ,v (getAllVariables :file ,file))))
      ,@body))
 
 (defun getAllVariables (&key (file *data-set-file*))
@@ -19,6 +38,9 @@ then remove duplicates afterwards"
 
 (defun getClassVariables (&key (index 0) (file *data-set-file*))
   "Given an a default index 0 (first column), we parse the data set file to determine all the possible value options for our class."
+  (with-all-variables (vars :file file)
+    (elt index vars)))
+
   (with-data-file (s file)
     (loop for line = (read-csv-line s) while line collecting (elt line index) into class-vars finally (return (delete-duplicates class-vars :test #'string-equal)))))
 
