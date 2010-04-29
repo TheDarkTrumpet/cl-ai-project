@@ -3,6 +3,7 @@
 
 (in-package :ai)
 
+;;;;;;;;;;; MACROS - to help make the functions a little easier ;;;;;;;;;;;;;;;
 (defmacro with-data-file ((s file) &body body)
   `(with-open-file (,s ,file :direction :input :if-does-not-exist :error)
      ,@body))
@@ -36,6 +37,8 @@ will not store the cache"
 	(setf ,v (loadEntireDataSet :file ,file))))
      ,@body))
 
+
+;;;;;;;;;;; Used by some of the macros to cache the data ;;;;;;;;;;;;;;;
 (defun getAllVariables (&key (file *data-set-file*))
   "Parses through the entire data-set file grabbing all the variables.  The one issue is this is pretty inefficient in terms of memory, we load everything,
 then remove duplicates afterwards"
@@ -50,7 +53,9 @@ then remove duplicates afterwards"
     (with-data-file (s file)
       (loop for line = (read-csv-line s) while line collect line into l finally (setf datas l)))
     datas))
-	 
+
+;;;;;;;;;;; Some simple functions to get attributes and classes. ;;;;;;;;;;;;;;;
+
 (defun getClassVariables (&key (index 0) (file *data-set-file*))
   "Given an a default index 0 (first column), we parse the data set file to determine all the possible value options for our class."
   (with-all-variables (vars :file file)

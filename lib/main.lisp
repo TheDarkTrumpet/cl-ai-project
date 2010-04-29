@@ -3,3 +3,6 @@
 ;
 
 (in-package :ai)
+
+
+"Classification algorithm:  Need algorithm name, chunk, eval-function"
