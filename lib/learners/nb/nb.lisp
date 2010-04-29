@@ -3,5 +3,4 @@
 
 (in-package :cl-user)
 
-(defpackage :ai-bayes
-  )
+(in-package :ai-bayes)
