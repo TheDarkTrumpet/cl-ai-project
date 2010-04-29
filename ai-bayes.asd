@@ -15,5 +15,6 @@
   :author "David Thole"
   :license "LGPL"
   :description "This is the Naive Bayes learning algorithm for classification"
-  :components ((:file "lib/learners/nb"))
+  :components ((:file "lib/learners/nb/package")
+	       (:file "lib/learners/nb/nb")
   :serial t)

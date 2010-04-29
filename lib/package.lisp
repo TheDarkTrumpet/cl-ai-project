@@ -5,4 +5,5 @@
 	:ai-bayes)
   (:export :*data-set-file* ;Our global variable for the data set
 	   ;Utility Functions
-	   :getClassVariables))
+	   :getClassVariables
+	   :getAttributeVariables))
