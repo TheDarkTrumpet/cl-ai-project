@@ -14,16 +14,16 @@
   "Stores a temporary copy of the variable from getAllVariables into v, and we use the cached
 variable, if it's available, if cachep is set. If cachep is nil, we'll reload the file and
 will not store the cache"
-  `(progn
+  `(let ((,v nil))
      (cond
-      (,cachep
-       (if (null *cached-variables*)
-	   (progn
-	     (setf *cached-variables* (getAllVariables :file ,file))
-	     (setf ,v *cached-variables*))
-	   (setf ,v *cached-variables*)))
-      (t
-       (setf ,v (getAllVariables :file ,file))))
+       (,cachep
+	(if (null *cached-variables*)
+	    (progn
+	      (setf *cached-variables* (getAllVariables :file ,file))
+	      (setf ,v *cached-variables*))
+	    (setf ,v *cached-variables*)))
+       (t
+	(setf ,v (getAllVariables :file ,file))))
      ,@body))
 
 (defun getAllVariables (&key (file *data-set-file*))
@@ -39,10 +39,10 @@ then remove duplicates afterwards"
 (defun getClassVariables (&key (index 0) (file *data-set-file*))
   "Given an a default index 0 (first column), we parse the data set file to determine all the possible value options for our class."
   (with-all-variables (vars :file file)
-    (elt index vars)))
-
-  (with-data-file (s file)
-    (loop for line = (read-csv-line s) while line collecting (elt line index) into class-vars finally (return (delete-duplicates class-vars :test #'string-equal)))))
+    (elt vars index)))
 
 (defun getAttributeVariables (&key (class-index 0) (file *data-set-file*))
-  "Given a class index, we'll parse all the other indexes, but that one, removing all the duplicates in the end.")
+  "Given a class index, we'll parse all the other indexes, but that one, removing all the duplicates in the end."
+  (with-all-variables (vars :file file)
+    (remove class-index vars)
+    vars))
