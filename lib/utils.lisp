@@ -20,8 +20,8 @@ will not store the cache"
 	(if (null *cached-variables*)
 	    (progn
 	      (setf *cached-variables* (getAllVariables :file ,file))
-	      (setf ,v *cached-variables*))
-	    (setf ,v *cached-variables*)))
+	      (setf ,v (copy-seq *cached-variables*)))
+	    (setf ,v (copy-seq *cached-variables*))))
        (t
 	(setf ,v (getAllVariables :file ,file))))
      ,@body))
@@ -42,7 +42,6 @@ then remove duplicates afterwards"
     (elt vars index)))
 
 (defun getAttributeVariables (&key (class-index 0) (file *data-set-file*))
-  "Given a class index, we'll parse all the other indexes, but that one, removing all the duplicates in the end."
+  "Given a class index, defauled to 0, we will remove that from all the variables and return.  Note that if class-index is given out of range, we won't really care and will return everything"
   (with-all-variables (vars :file file)
-    (remove class-index vars)
-    vars))
+    (remove-if #'identity vars :count 1 :start class-index :end (1+ class-index))))
