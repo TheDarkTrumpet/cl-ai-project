@@ -10,11 +10,9 @@
 (defvar *p-class* nil)
 
 (defun count-all-attributes-in-classes (class-index data-set class-variables)
-  (let ((class-count (make-hash-table :size (length class-variables))))
-    (dolist (class class-variables)
-      (setf (gethash (intern class) class-count) 0))
+  (let ((class-count (mapcar (lambda (x) (cons x 0)) class-variables)))
     (dolist (line data-set)
-      (incf (gethash (intern (elt line class-index)) class-count)))
+      (incf (cdr (assoc (elt line class-index) class-count :test #'equalp))))
     (setf *n-class* class-count)
     class-count))
 
