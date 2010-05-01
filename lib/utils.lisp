@@ -65,3 +65,8 @@ then remove duplicates afterwards"
   "Given a class index, defauled to 0, we will remove that from all the variables and return.  Note that if class-index is given out of range, we won't really care and will return everything"
   (with-all-variables (vars :file file)
     (remove-if #'identity vars :count 1 :start class-index :end (1+ class-index))))
+
+(defun getDataSet (&key (file *data-set-file*))
+  "Returns the data set, which can be a copy of the cached data set file"
+  (with-data-set (v :file file)
+    v))

@@ -32,10 +32,26 @@
     (setf *p-class* class-probability)
     class-probability))
 
+(defun attribute-class-counter (class-index &key (data-set *cf*) (class-variables *cv*) (attribute-variables *av*))
+  (let ((acc (mapcar 
+	      (lambda (x)
+		(mapcar
+		 (lambda (y) (cons y (mapcar 
+				      (lambda (z) (cons z 0)) class-variables))) x))
+	      attribute-variables)))
+    (dolist (dataelement data-set)
+      (loop for attribute in dataelement
+	   for classv = (elt dataelement class-index) then classv
+	   for x = 0 then (1+ x)
+	   when (not (equalp x class-index)) do
+	   (format t "~a~%" (cdr (assoc attribute (cdr (assoc classv (elt acc x) :test #'equalp)) :test #'equalp)))))
+    acc))
+
 (defun bootstrap (data-set class-vars attribute-vars)
   (setf *cf* data-set)
   (setf *cv* class-vars)
-  (setf *av* attribute-vars))
+  (setf *av* attribute-vars)
+  t)
 
 (defun nb ()
   "Our only exposed naive-bayes function that'll perform the training")
