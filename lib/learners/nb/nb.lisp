@@ -39,14 +39,13 @@
 		 (lambda (y) (cons y (mapcar 
 					    (lambda (z) (cons z 0)) class-variables))) x))
 	      attribute-variables)))
-    (dolist (line (list (first data-set)))
+    (dolist (line data-set)
       (let ((aline (remove-if #'identity line :count 1 :start class-index :end (1+ class-index)))
 	    (classv (elt line class-index)))
-	(format t "~a : ~a~%" aline classv)
 	(loop for attribute in aline
 	   for x = 0 then (1+ x)
 	   do
-	   (incf (cdr(assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
+	   (incf (cdr (assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
 
 
