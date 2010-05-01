@@ -37,15 +37,18 @@
 	      (lambda (x)
 		(mapcar
 		 (lambda (y) (cons y (mapcar 
-				      (lambda (z) (cons z 0)) class-variables))) x))
+					    (lambda (z) (cons z 0)) class-variables))) x))
 	      attribute-variables)))
-    (dolist (dataelement data-set)
-      (loop for attribute in dataelement
-	   for classv = (elt dataelement class-index) then classv
+    (dolist (line (list (first data-set)))
+      (let ((aline (remove-if #'identity line :count 1 :start class-index :end (1+ class-index)))
+	    (classv (elt line class-index)))
+	(format t "~a : ~a~%" aline classv)
+	(loop for attribute in aline
 	   for x = 0 then (1+ x)
-	   when (not (equalp x class-index)) do
-	   (format t "~a~%" (cdr (assoc attribute (cdr (assoc classv (elt acc x) :test #'equalp)) :test #'equalp)))))
+	   do
+	   (incf (cdr(assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
+
 
 (defun bootstrap (data-set class-vars attribute-vars)
   (setf *cf* data-set)
