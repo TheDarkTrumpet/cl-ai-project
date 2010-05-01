@@ -15,10 +15,10 @@
 (defvar *cf* nil) ;cached data set
 (defvar *av* nil) ;cached attributes
 
-(defun count-all-attributes-in-classes (class-index &key (data-set *cf*) (class-variables *cv*))
+(defun class-count (class-index &key (data-set *cf*) (class-variables *cv*))
   "Groups up all the class counts, by using a temporary variable class-count to develop the organization such as:
-((\"poisonous\" . 3916) (\"edible\" . 4208))
-which is used later in the class-probability"
+ ((\"poisonous\" . 3916) (\"edible\" . 4208))
+ which is used later in the class-probability"
   (let ((class-count (mapcar (lambda (x) (cons x 0)) class-variables)))
     (dolist (line data-set)
       (incf (cdr (assoc (elt line class-index) class-count :test #'equalp))))
@@ -26,12 +26,12 @@ which is used later in the class-probability"
     class-count))
 
 (defun class-probability (class-index &key (data-set *cf*) (class-variables *cv*))
-  "Groups up all the class probabilities for this data set, by using a similar method as in count-all-attributes-in-classes.
-Returns something such as:
-((\"poisonous\" . 0.48202854) (\"edible\" . 0.51797146))
-which is used later in doing the priors"
+  "Groups up all the class probabilities for this data set, by using a similar method as in count-all-attributes- in-classes.
+ Returns something such as:
+ ((\"poisonous\" . 0.48202854) (\"edible\" . 0.51797146))
+ which is used later in doing the priors"
   (if (null *n-class*)
-      (count-all-attributes-in-classes class-index data-set class-variables))
+      (class-count class-index))
   (let ((class-probability (mapcar (lambda (x) (cons x 0)) class-variables)))
     (dolist (class *n-class*)
       (setf (cdr (assoc (car class) class-probability :test #'equalp)) 
@@ -69,6 +69,21 @@ The number of entries, totalled would quate out to the total number of entries i
 	   (incf (cdr (assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
 
+(defun attribute-class-probability (class-index &key (data-set *cf*) (class-variables *cv*) (attribute-variables *av*))
+  (let ((acc (attribute-class-counter class-index))
+	(p-class (class-probability class-index))
+	(n-class (class-count class-index)))
+    (loop for i in attribute-variables do
+	 (loop for j in i do
+	      (loop for k in class-variables
+;		   (setf (cdr (assoc k (cdr j) :test #'equalp)) (/ (* pc[i][j][k] (cdr (assoc k p_class[k] :test #'equalp)) ) n_class[k])) )))
+		   (setf (cdr (assoc k (cdr j) :test #'equalp)) (/ (* 0 (cdr (assoc k p_class[k] :test #'equalp)) ) n_class[k])) )))
+    acc))
+
+
+for i in range(len(domain.attributes)):
+for j in range(len(domain.attributes[i].values)): for k in range(len(domain.classVar.values)):
+pc[i][j][k] = (pc[i][j][k] + self.m * p_class[k])/ \ (n_class[k] + self.m)
 
 (defun bootstrap (data-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
