@@ -6,3 +6,9 @@
 
 
 "Classification algorithm:  Need algorithm name, chunk, eval-function"
+
+
+; To test and debug:
+; (in-package :ai)
+; (ai-bayes::bootstrap (getDataSet) (getClassVariables) (getAttributeVariables))
+; (in-package :ai-bayes)
