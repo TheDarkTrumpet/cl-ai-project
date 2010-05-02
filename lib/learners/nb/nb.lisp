@@ -11,11 +11,12 @@
 
 ; Temporary holding areas for our data (to make things easier, maybe we can avoid
 ; duplication later...
-(defvar *cv* nil) ;cached variables
-(defvar *cf* nil) ;cached data set
-(defvar *av* nil) ;cached attributes
+(defvar *cv* nil)  ;cached variables
+(defvar *cf* nil)  ;cached data set (training)
+(defvar *av* nil)  ;cached attributes
+(defvar *cfi* nil) ;The class index
 
-(defun class-count (class-index &key (data-set *cf*) (class-variables *cv*))
+(defun class-count (&key (class-index *cfi*) (data-set *cf*) (class-variables *cv*))
   "Groups up all the class counts, by using a temporary variable class-count to develop the organization such as:
  ((\"poisonous\" . 3916) (\"edible\" . 4208))
  which is used later in the class-probability"
@@ -25,7 +26,7 @@
     (setf *n-class* class-count)
     class-count))
 
-(defun class-probability (class-index &key (data-set *cf*) (class-variables *cv*))
+(defun class-probability (&key (class-index *cfi*) (data-set *cf*) (class-variables *cv*))
   "Groups up all the class probabilities for this data set, by using a similar method as in count-all-attributes- in-classes.
  Returns something such as:
  ((\"poisonous\" . 0.48202854) (\"edible\" . 0.51797146))
@@ -39,7 +40,7 @@
     (setf *p-class* class-probability)
     class-probability))
 
-(defun attribute-class-counter (class-index &key (data-set *cf*) (class-variables *cv*) (attribute-variables *av*))
+(defun attribute-class-counter (&key (class-index *cfi*) (data-set *cf*) (class-variables *cv*) (attribute-variables *av*))
   "This extremely overcomplicated function basically takes an index, and goes through the entire data set.  For each class 
 of the row in that data set, we count the attributes affected by that class.  So, if row 1 has 5 attributes and a class of \"moo\",
 then we increment, within those attribute values the class value moo, by 1.  Basically something we'll be returned as would be:
@@ -69,7 +70,7 @@ The number of entries, totalled would quate out to the total number of entries i
 	   (incf (cdr (assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
 
-(defun attribute-class-probability (class-index &key (class-variables *cv*))
+(defun attribute-class-probability (&key (class-index *cfi*) (class-variables *cv*))
   (let ((acc (attribute-class-counter class-index))
 	(p-class (class-probability class-index))
 	(n-class (class-count class-index)))
@@ -84,16 +85,29 @@ The number of entries, totalled would quate out to the total number of entries i
 
 
 ;;;;;;; These functions below are called outside of this particular package.  They are for setup and the actual learning/testing process. ;;;;;
-(defun bootstrap (data-set class-vars attribute-vars)
+(defun bootstrap (&key class-var-index testing-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
 of the functions in this file scoped with special data.  Bootstrap just makes this more simple"
+  (setf *cfi* class-var-index)
   (setf *cf* data-set)
   (setf *cv* class-vars)
   (setf *av* attribute-vars)
   t)
 
-(defun nb ()
-  "Our only exposed naive-bayes function that'll perform the training")
+(defun classify-testing-element (acp example &key (class-index *cfi*) (class-variables *cv*))
+  "Given that acp is an attribute-class-probability list, we take the example and compute the P[Class_Variable], for this particular example.
+The values returned are is the first element being the class and probability as a list, the second element being a list of alists containing
+the class variable and the probability associated with it"
+  )
+  
+(defun nb (testing-set)
+  "Our only exposed naive-bayes function that'll perform the training"
+  (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*))
+    (error "You must call bootstrap before calling nb"))
+  (let (acp (attribute-class-probability))
+    (classify-testing-element (first testing-set))
+    ))
+    
 
 
