@@ -32,7 +32,7 @@
  ((\"poisonous\" . 0.48202854) (\"edible\" . 0.51797146))
  which is used later in doing the priors"
   (if (null *n-class*)
-      (class-count class-index))
+      (class-count))
   (let ((class-probability (mapcar (lambda (x) (cons x 0)) class-variables)))
     (dolist (class *n-class*)
       (setf (cdr (assoc (car class) class-probability :test #'equalp)) 
