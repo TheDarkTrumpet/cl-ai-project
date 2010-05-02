@@ -94,7 +94,7 @@ A bit of example output would be something like:
 	      (loop for k in class-variables do
 		   (setf (cdr (assoc k (cdr j) :test #'equalp)) 
 			 (/ (* (cdr (assoc k (cdr j) :test #'equalp)) (cdr (assoc k p-class :test #'equalp))) 
-			    (cdr (assoc k n-class :test #'equalp)))) )))
+			    (cdr (assoc k n-class :test #'equalp)))))))
     acc))
 
 
@@ -114,14 +114,21 @@ of the functions in this file scoped with special data.  Bootstrap just makes th
   "Given that acp is an attribute-class-probability list, we take the example and compute the P[Class_Variable], for this particular example.
 The values returned are is the first element being the class and probability as a list, the second element being a list of alists containing
 the class variable and the probability associated with it"
-  )
+  (let ((aline (remove-if #'identity example :count 1 :start class-index :end (1+ class-index)))
+	(pc (mapcar (lambda (x) (cons x 1.0)) class-variables)))
+    (loop for t-attrib in aline
+	 for p-attrib in acp do
+	 (loop for class in class-variables do
+	      (setf (cdr (assoc class pc)) (* (cdr (assoc class pc :test #'equalp))
+					      (cdr (assoc class (cdr (assoc t-attrib p-attrib :test #'equalp)) :test #'equalp))))))
+    pc))
   
 (defun nb (testing-set)
   "Our only exposed naive-bayes function that'll perform the training"
   (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*))
     (error "You must call bootstrap before calling nb"))
-  (let (acp (attribute-class-probability))
-    (classify-testing-element (first testing-set))
+  (let ((acp (attribute-class-probability)))
+    (classify-testing-element acp (first testing-set))
     ))
     
 
