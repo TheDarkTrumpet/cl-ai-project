@@ -110,6 +110,23 @@ of the functions in this file scoped with special data.  Bootstrap just makes th
   (setf *av* attribute-vars)
   t)
 
+(defun normalize-probability (pc)
+  "This is a normalization function, we take in the pc derived from classify-testing-element, and if the sum is greater than 0, we normalize
+the data back to under 0 so the probabilities make more sense.  We could likely just do this for even less than 0 - which would actually give more
+reasonable probabilities since it doesn't equal 1 - but we'll deal with only stuff greater than 1.  I don't see where we'd need this, given the operations above
+but the tutorial did it, and I don't see any harm in keeping it here.
+
+Example output: 
+ AI-BAYES> (normalize-probability '((\"poisonous\" . 0.5) (\"edible\" . 0.4)))
+ ((\"poisonous\" . 0.5) (\"edible\" . 0.4))
+ AI-BAYES> (normalize-probability '((\"poisonous\" . 0.5) (\"edible\" . 1.4)))
+ ((\"poisonous\" . 0.2631579) (\"edible\" . 0.7368421))"
+  (loop for x in pc 
+     for y = (cdr x) summing y into sum finally
+       (progn (when (> sum 1)
+		(loop for y in pc do (setf (cdr y) (/ (cdr y) sum))))
+	      (return pc))))
+       
 (defun classify-testing-element (acp example &key (class-index *cfi*) (class-variables *cv*))
   "Given that acp is an attribute-class-probability list, we take the example and compute the P[Class_Variable], for this particular example.
 The values returned are is the first element being the class and probability as a list, the second element being a list of alists containing
@@ -130,6 +147,3 @@ the class variable and the probability associated with it"
   (let ((acp (attribute-class-probability)))
     (classify-testing-element acp (first testing-set))
     ))
-    
-
-
