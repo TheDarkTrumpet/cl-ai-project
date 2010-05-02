@@ -37,7 +37,6 @@ will not store the cache"
 	(setf ,v (loadEntireDataSet :file ,file))))
      ,@body))
 
-
 ;;;;;;;;;;; Used by some of the macros to cache the data ;;;;;;;;;;;;;;;
 (defun getAllVariables (&key (file *data-set-file*))
   "Parses through the entire data-set file grabbing all the variables.  The one issue is this is pretty inefficient in terms of memory, we load everything,

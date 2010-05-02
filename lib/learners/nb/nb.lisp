@@ -128,9 +128,13 @@ Example output:
 	      (return pc))))
        
 (defun classify-testing-element (acp example &key (class-index *cfi*) (class-variables *cv*))
-  "Given that acp is an attribute-class-probability list, we take the example and compute the P[Class_Variable], for this particular example.
-The values returned are is the first element being the class and probability as a list, the second element being a list of alists containing
-the class variable and the probability associated with it"
+  "Given acp, an attribute-class-probability list, and a specific example, we compute the P[Class_Variable], for this particular example.
+The values returned is a list of elements, ordered such that the first element of the list is the a-list that had the greatest probability for this
+class example.  The rest of the elements are the other class varaible and probability a-lists, with ordering such that the class with the greatest
+probability resides closer to the front of the list.
+
+Example output: 
+ ((\"edible\" . 4.1844698e-16) (\"poisonous\" . 0.0))"
   (let ((aline (remove-if #'identity example :count 1 :start class-index :end (1+ class-index)))
 	(pc (mapcar (lambda (x) (cons x 1.0)) class-variables)))
     (loop for t-attrib in aline
@@ -138,12 +142,26 @@ the class variable and the probability associated with it"
 	 (loop for class in class-variables do
 	      (setf (cdr (assoc class pc)) (* (cdr (assoc class pc :test #'equalp))
 					      (cdr (assoc class (cdr (assoc t-attrib p-attrib :test #'equalp)) :test #'equalp))))))
-    pc))
+    (stable-sort (normalize-probability pc) #'(lambda (x y) (if (> (cdr x) (cdr y)) t nil)))))
   
 (defun nb (testing-set)
-  "Our only exposed naive-bayes function that'll perform the training"
+  "This function takes a list of testing-set elements and runs them through classify-testing-element for each particular element, and returns a list of ordered
+classifications.
+
+Example output:
+ AI-BAYES> (nb (subseq *cf* 0 10))
+ (((\"poisonous\" . 2.8199686e-20) (\"edible\" . 0.0))
+  ((\"edible\" . 2.265796e-15) (\"poisonous\" . 0.0))
+  ((\"edible\" . 4.1844698e-16) (\"poisonous\" . 0.0))
+  ((\"poisonous\" . 1.9078604e-20) (\"edible\" . 0.0))
+  ((\"edible\" . 8.735333e-15) (\"poisonous\" . 0.0))
+  ((\"edible\" . 7.658977e-15) (\"poisonous\" . 0.0))
+  ((\"edible\" . 1.0476759e-16) (\"poisonous\" . 0.0))
+  ((\"edible\" . 1.2102772e-15) (\"poisonous\" . 0.0))
+  ((\"poisonous\" . 2.2954268e-18) (\"edible\" . 0.0))
+  ((\"edible\" . 1.2804928e-16) (\"poisonous\" . 0.0)))
+"
   (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*))
     (error "You must call bootstrap before calling nb"))
   (let ((acp (attribute-class-probability)))
-    (classify-testing-element acp (first testing-set))
-    ))
+    (loop for x in testing-set collecting (classify-testing-element acp x) into testing-elements finally (return testing-elements))))
