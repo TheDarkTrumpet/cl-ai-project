@@ -70,10 +70,25 @@ The number of entries, totalled would quate out to the total number of entries i
 	   (incf (cdr (assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
 
-(defun attribute-class-probability (&key (class-index *cfi*) (class-variables *cv*))
-  (let ((acc (attribute-class-counter class-index))
-	(p-class (class-probability class-index))
-	(n-class (class-count class-index)))
+(defun attribute-class-probability (&key (class-variables *cv*))
+"Given elements derived from the attribite-class-counter, we compute the probabilities of this attribute's class occurance by the following equation (taken from 
+orange's naive bayes tutorial:
+pc[i][j][k] = (pc[i][j][k] + self.m * p_class[k]) / (n_class[k] + self.m)
+where pc is defined as our count from attribute-class-counter, m is not implemented here, p_class is the class probability and
+n_class is the number of occurances for this class.  See functions class-count, and class-probability for what these would come out to.
+A bit of example output would be something like:
+ (...
+ ((\"scattered\" (\"poisonous\" . 0.045297883) (\"edible\" . 0.108321026))
+  (\"numerous\" (\"poisonous\" . 0.0) (\"edible\" . 0.04923683))
+  (\"abundant\" (\"poisonous\" . 0.0) (\"edible\" . 0.047267355))
+  (\"several\" (\"poisonous\" . 0.3505662) (\"edible\" . 0.14672576))
+  (\"solitary\" (\"poisonous\" . 0.07976366) (\"edible\" . 0.13096997))
+  (\"clustered\" (\"poisonous\" . 0.0064007877) (\"edible\" . 0.035450518)))
+  ...)
+"
+  (let ((acc (attribute-class-counter))
+	(p-class (class-probability))
+	(n-class (class-count)))
     (loop for i in acc do
 	 (loop for j in i do
 	      (loop for k in class-variables do
@@ -90,7 +105,7 @@ The number of entries, totalled would quate out to the total number of entries i
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
 of the functions in this file scoped with special data.  Bootstrap just makes this more simple"
   (setf *cfi* class-var-index)
-  (setf *cf* data-set)
+  (setf *cf* testing-set)
   (setf *cv* class-vars)
   (setf *av* attribute-vars)
   t)

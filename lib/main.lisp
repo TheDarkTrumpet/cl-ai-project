@@ -10,5 +10,5 @@
 
 ; To test and debug:
 ; (in-package :ai)
-; (ai-bayes::bootstrap (getDataSet) (getClassVariables) (getAttributeVariables))
+; (ai-bayes::bootstrap :class-var-index 0 :testing-set (getDataSet) :class-vars (getClassVariables) :attribute-vars (getAttributeVariables))
 ; (in-package :ai-bayes)
