@@ -69,20 +69,22 @@ The number of entries, totalled would quate out to the total number of entries i
 	   (incf (cdr (assoc classv (cdr (assoc attribute (elt acc x) :test #'equalp)) :test #'equalp))))))
     acc))
 
-(defun attribute-class-probability (class-index &key (data-set *cf*) (class-variables *cv*) (attribute-variables *av*))
+(defun attribute-class-probability (class-index &key (class-variables *cv*))
   (let ((acc (attribute-class-counter class-index))
 	(p-class (class-probability class-index))
 	(n-class (class-count class-index)))
-    (loop for i in attribute-variables do
+    (loop for i in acc do
 	 (loop for j in i do
-	      (loop for k in class-variables
-;		   (setf (cdr (assoc k (cdr j) :test #'equalp)) (/ (* pc[i][j][k] (cdr (assoc k p_class[k] :test #'equalp)) ) n_class[k])) )))
-		   (setf (cdr (assoc k (cdr j) :test #'equalp)) (/ (* 0 (cdr (assoc k p_class[k] :test #'equalp)) ) n_class[k])) )))
+	      (loop for k in class-variables do
+		   (setf (cdr (assoc k (cdr j) :test #'equalp)) 
+			 (/ (* (cdr (assoc k (cdr j) :test #'equalp)) (cdr (assoc k p-class :test #'equalp))) 
+			    (cdr (assoc k n-class :test #'equalp)))) )))
     acc))
 
 
 for i in range(len(domain.attributes)):
-for j in range(len(domain.attributes[i].values)): for k in range(len(domain.classVar.values)):
+for j in range(len(domain.attributes[i].values)): 
+for k in range(len(domain.classVar.values)):
 pc[i][j][k] = (pc[i][j][k] + self.m * p_class[k])/ \ (n_class[k] + self.m)
 
 (defun bootstrap (data-set class-vars attribute-vars)
