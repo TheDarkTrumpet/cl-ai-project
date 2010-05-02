@@ -82,11 +82,8 @@ The number of entries, totalled would quate out to the total number of entries i
     acc))
 
 
-for i in range(len(domain.attributes)):
-for j in range(len(domain.attributes[i].values)): 
-for k in range(len(domain.classVar.values)):
-pc[i][j][k] = (pc[i][j][k] + self.m * p_class[k])/ \ (n_class[k] + self.m)
 
+;;;;;;; These functions below are called outside of this particular package.  They are for setup and the actual learning/testing process. ;;;;;
 (defun bootstrap (data-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
