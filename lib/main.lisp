@@ -4,9 +4,6 @@
 
 (in-package :ai)
 
-
-"Classification algorithm:  Need algorithm name, chunk, eval-function"
-
 (defun analyze-results (testing-results testing-set &key (class-index 0))
   (let ((correct-classifications 0)
 	(incorrect-classifications 0))
@@ -16,9 +13,11 @@
 			(elt y class-index))
 		(incf correct-classifications)
 		(incf incorrect-classifications)))
-    (format t "Correct Classifications: ~a, ~a~%Incorrect Classifications: ~a, ~a~%"
-	    correct-classifications (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
-	    incorrect-classifications (/ incorrect-classifications (+ correct-classifications incorrect-classifications) 1.0))))
+    (values (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
+	    (with-output-to-string (s)
+	      (format s "Correct Classifications: ~a, ~a~%Incorrect Classifications: ~a, ~a~%"
+		      correct-classifications (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
+		      incorrect-classifications (/ incorrect-classifications (+ correct-classifications incorrect-classifications) 1.0))))))
 
   (format t "~a : ~a~%" (first testing-results) (first testing-set)))
 
