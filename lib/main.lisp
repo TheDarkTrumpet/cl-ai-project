@@ -40,6 +40,10 @@ Details returned:
 	  (/ (apply #'+ (mapcar #'first results)) (length results))
 	  (mapcar #'second results)))
 
+;To run run-nb, which should be run as a basis of the naive-bayes algorithm grading
+;(require :ai)
+;(in-package :ai)
+;(run-nb 10)
 (defun run-nb (folds)
   "Pulls in the data set, class variables, splits it into 66% and 33% lengths.  Then, for each fold we create a
 random start varaible in the first 66% of the data, of that 33% of that goes into testing (using subseq, so
@@ -74,8 +78,3 @@ NIL
 		   (multiple-value-bind (x y) (analyze-results (ai-bayes::nb testing-set) testing-set)
 		     (list x y))) into results
 	 finally (display-results results))))
-
-; To test and debug:
-; (in-package :ai)
-; (ai-bayes::bootstrap :class-var-index 0 :testing-set (getDataSet) :class-vars (getClassVariables) :attribute-vars (getAttributeVariables))
-; (in-package :ai-bayes)
