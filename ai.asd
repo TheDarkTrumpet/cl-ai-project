@@ -22,5 +22,5 @@
 	       (:file "lib/variables")
 	       (:file "lib/utils")
 	       (:file "lib/main"))
-  :depends-on (:fare-csv :ai-bayes)
+  :depends-on (:fare-csv :ai-bayes :ai-nn)
   :serial t)
