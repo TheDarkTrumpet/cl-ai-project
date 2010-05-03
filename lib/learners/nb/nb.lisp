@@ -100,12 +100,12 @@ A bit of example output would be something like:
 
 
 ;;;;;;; These functions below are called outside of this particular package.  They are for setup and the actual learning/testing process. ;;;;;
-(defun bootstrap (&key class-var-index testing-set class-vars attribute-vars)
+(defun bootstrap (&key class-var-index training-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
 of the functions in this file scoped with special data.  Bootstrap just makes this more simple"
   (setf *cfi* class-var-index)
-  (setf *cf* testing-set)
+  (setf *cf* training-set)
   (setf *cv* class-vars)
   (setf *av* attribute-vars)
   t)
