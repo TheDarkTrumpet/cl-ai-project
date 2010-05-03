@@ -15,11 +15,20 @@
 		(incf incorrect-classifications)))
     (values (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
 	    (with-output-to-string (s)
-	      (format s "Correct Classifications: ~a, ~a~%Incorrect Classifications: ~a, ~a~%"
+	      (format s "Correct Classifications: ~a, ~a~%Incorrect Classifications: ~a, ~a"
 		      correct-classifications (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
 		      incorrect-classifications (/ incorrect-classifications (+ correct-classifications incorrect-classifications) 1.0))))))
 
-  (format t "~a : ~a~%" (first testing-results) (first testing-set)))
+(defun display-results (results)
+  (format t "Classification algorithm finished:
+Accuracy Listing: ~{~a, ~}
+Accuracy Average: ~a
+----------
+Details returned:
+~{~a~%~}"
+	  (mapcar #'first results)
+	  (/ (apply #'+ (mapcar #'first results)) (length results))
+	  (mapcar #'second results)))
 
 (defun run-nb (folds)
   (let* ((data-set (getDataSet))
@@ -33,9 +42,10 @@
        for testing-set = (subseq data-set random-start-var (+ random-start-var 33pc))
        for training-set = (remove-if #'identity data-set :start random-start-var :count 33pc)
 	 collect (progn
-		   (format t "r: ~a x: ~a : ~a ~a~%" random-start-var x (length training-set) (length testing-set))
 		   (ai-bayes::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes)
-		   (analyze-results (ai-bayes::nb testing-set) testing-set)))))
+		   (multiple-value-bind (x y) (analyze-results (ai-bayes::nb testing-set) testing-set)
+		     (list x y))) into results
+	 finally (display-results results))))
 
 ; To test and debug:
 ; (in-package :ai)
