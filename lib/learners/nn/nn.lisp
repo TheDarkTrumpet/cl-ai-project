@@ -21,6 +21,9 @@
 to another"
   (loop for x in dist-list summing (expt x 2) into distance finally (return distance)))
 
+(defun attribute-class-probability (&key (class-variables *cv*))
+  (ai-bayes::bootstrap :class-var-index 0 :training-set *cf* :class-vars *cv* :attribute-vars *av*)
+  (ai-bayes::attribute-class-probability :class-variables class-variables))
 
 (defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
@@ -40,6 +43,7 @@ training-set => The list of training elements
 class-vars => The listing of possible class variables
 attribute-vars => The listing of possible attribute-variables
 k => The number of nodes to consider for what something gets classified as."
+  (setf *k* k)
   (setf *cfi* class-var-index)
   (setf *cf* training-set)
   (setf *cv* class-vars)
