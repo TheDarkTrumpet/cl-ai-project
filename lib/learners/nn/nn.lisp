@@ -19,7 +19,8 @@
 (defun vector-distance (dist-list)
   "Given a list of distances as a list, we compute a single number that represents the distance overall.  This is from one node
 to another"
-  )
+  (loop for x in dist-list summing (expt x 2) into distance finally (return distance)))
+
 
 (defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
