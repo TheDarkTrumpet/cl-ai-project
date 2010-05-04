@@ -126,14 +126,12 @@ Example output:
 	     (if (<= computed-example tf)  ;We have a computed example in our threshold
 		 (progn
 		   (setf my-special-var (append my-special-var (list ret-val)))
-		   (when (>= (length my-special-var) k)
-		     (return my-special-var)))
+		   (if (>= (length my-special-var) k)
+		       (return my-special-var))
+		   ret-val)
 		 ret-val)))
        into p-examples
-       finally (return
-		 (if (>= (length my-special-var) k)
-		     (stable-sort my-special-var #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t)))
-		     (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))))
+       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k)))))
 		       
 
 
