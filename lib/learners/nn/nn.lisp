@@ -127,7 +127,8 @@ Example output:
 		 (progn
 		   (setf my-special-var (append my-special-var (list ret-val)))
 		   (if (>= (length my-special-var) k)
-		       (return my-special-var))
+		       (progn
+			 (return my-special-var)))
 		   ret-val)
 		 ret-val)))
        into p-examples
@@ -149,9 +150,7 @@ classifications."
     (loop for x in testing-set 
        for y = 1 then (1+ y)
        collecting 
-	 (progn (format t "Iteration ~a~%" y)
-		(finish-output)
-		(classify-testing-element acp x))
+	 (classify-testing-element acp x)
        into testing-elements finally (return testing-elements))))
 
     

@@ -113,7 +113,9 @@ NIL
        for testing-set = (subseq data-set random-start-var (+ random-start-var 33pc))
        for training-set = (remove-if #'identity data-set :start random-start-var :count 33pc)
 	 collect (progn
-		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold 10)
+		   (format t "Running fold #:~a~%" (1+ x))
+		   (finish-output)
+		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold 1)
 		   (multiple-value-bind (x y) (analyze-nn-results (ai-nn::nn testing-set) testing-set)
 		     (list x y))) into results
 	 finally (display-nn-results results))))
