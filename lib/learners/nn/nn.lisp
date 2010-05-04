@@ -54,22 +54,6 @@ Example output:
 		    (abs (- (cdr (assoc class (cdr (assoc x p-attrib :test #'equalp)) :test #'equalp))
 			    (cdr (assoc class (cdr (assoc y p-attrib :test #'equalp)) :test #'equalp)))))))
 
-(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
-  "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
-we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
-in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
-acp => Our attribute-class-probability list of a-lists.
-example => Our testing example (assumes our class variable is still present, hence the class-index)
-Example output:
- AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
- ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
-  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
-"
-  (loop for x in training-set collecting 
-       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
-       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
-
-
 (defun bootstrap (&key k class-var-index training-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
@@ -87,10 +71,61 @@ k => The number of nodes to consider for what something gets classified as."
   (setf *av* attribute-vars)
   t)
 
+"""
+******************************** INEFFICIENCY NOTE ************************************
+Note:
+This function listed below, along with the nn associated with it right below this are INEFFICIENT. I'm leaving the code here as a bit to explaining likely the 
+perfect solution way of going about this.  If we take into account every element in the data set, we are guaranteed to find their nearest neighbors.  With 8000
+elements, though, this is pretty much stupid..not impossible, but 10-fold on this large of a set takes awhile.
+
+I'm leaving the code here as a demo, but below this set of code you'll find the exact same functions, that include a weight.  These are passed in the bootstrap
+process, so I don't need to change the run-nn function from main.lisp in a way that would depend on these.  You can run one over the other if you *really* want to by simply
+commenting out the relevant sections (use ;) and uncommenting out the other sections.  Needless to say this took awhile, and I got tired of waiting after 5m"
+
+(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
+  "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
+we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
+in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
+acp => Our attribute-class-probability list of a-lists.
+example => Our testing example (assumes our class variable is still present, hence the class-index)
+Example output:
+ AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
+ ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
+  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
+"
+  (loop for x in training-set collecting 
+       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
+       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
 
 """
-Note that the function listed here is inefficient.  The reason for this is because ideally we want to cycle through every element in our training set to order the variables and ensure that we are really getting the accurate representation.  With 8k data elements, a good 5k of those being our testing and 3k being our training - this is fairly slow.  I left it here because it's a viable option.  Some output from main.lisp with the use of this is:
-<fill in stats>
+******************************** MORE EFFICIENT NOTE ************************************
+The function below for classify-testing-element will basically act as exactly the same above, but we'll keep track of the threshold and if the values sit within that threshold, we'll
+store the values into a special variable.  The point of this is so that when our threshold reaches k, we can say we're done and just return the stable sort on those elements.
+
+This has a benefit of us possibly ending far sooner than we would have otherwise, but a problem that our error rate can increase quite a bit if we're not careful.  The right balance is nessary
+for us to actually finish this off... 
+"""
+
+(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
+  "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
+we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
+in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
+acp => Our attribute-class-probability list of a-lists.
+example => Our testing example (assumes our class variable is still present, hence the class-index)
+Example output:
+ AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
+ ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
+  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
+"
+  (loop for x in training-set collecting 
+       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
+       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
+
+
+"""
+Below is an alternate way of defining nn.  What we'll do is accept a threshold of sorts.  If it is within this threshold, we'll put this into a special variable. When the count > our k, we'll
+just return that.  The benefit here is that we can likely end much sooner than we normally would.  The negative is that we can increase our error rate  if this threshold is set too high.  If it's
+too low, we'll basically just do nn like above...
 """
 (defun nn (testing-set)
   "This function takes a list of testing elements, and runs them throgh classify-testing-element for each particular element, and returns a list of ordered 
@@ -98,9 +133,6 @@ classifications."
   (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*) (null *k*))
     (error "You must call bootstrap before calling nn"))
   (let ((acp (attribute-class-probability)))
-    (loop for x in testing-set 
-       for y = 0 then (1+ y)
-       collecting (progn
-		    (format t "Iteration: ~a~%" y)
-		    (finish-output)
-		    (classify-testing-element acp x)) into testing-elements finally (return testing-elements))))
+    (loop for x in testing-set collecting (classify-testing-element acp x) into testing-elements finally (return testing-elements))))
+
+    
