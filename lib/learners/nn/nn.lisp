@@ -146,6 +146,12 @@ classifications."
   (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*) (null *k*))
     (error "You must call bootstrap before calling nn"))
   (let ((acp (attribute-class-probability)))
-    (loop for x in testing-set collecting (classify-testing-element acp x) into testing-elements finally (return testing-elements))))
+    (loop for x in testing-set 
+       for y = 1 then (1+ y)
+       collecting 
+	 (progn (format t "Iteration ~a~%" y)
+		(finish-output)
+		(classify-testing-element acp x))
+       into testing-elements finally (return testing-elements))))
 
     
