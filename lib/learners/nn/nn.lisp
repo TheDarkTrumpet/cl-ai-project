@@ -54,14 +54,21 @@ Example output:
 		    (abs (- (cdr (assoc class (cdr (assoc x p-attrib :test #'equalp)) :test #'equalp))
 			    (cdr (assoc class (cdr (assoc y p-attrib :test #'equalp)) :test #'equalp)))))))
 
-(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*))
+(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
 we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
-in our training set doing this - at the end, we do a sort on the elements.
+in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
+acp => Our attribute-class-probability list of a-lists.
+example => Our testing example (assumes our class variable is still present, hence the class-index)
+Example output:
+ AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
+ ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
+  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
+"
+  (loop for x in training-set collecting 
+       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
+       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
 
-Should we do the chopping off here and grouping?  Majority wins, but should that be done here?"
-  (loop for x in training-set 
-  )
 
 (defun bootstrap (&key k class-var-index training-set class-vars attribute-vars)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
