@@ -87,10 +87,20 @@ k => The number of nodes to consider for what something gets classified as."
   (setf *av* attribute-vars)
   t)
 
+
+"""
+Note that the function listed here is inefficient.  The reason for this is because ideally we want to cycle through every element in our training set to order the variables and ensure that we are really getting the accurate representation.  With 8k data elements, a good 5k of those being our testing and 3k being our training - this is fairly slow.  I left it here because it's a viable option.  Some output from main.lisp with the use of this is:
+<fill in stats>
+"""
 (defun nn (testing-set)
   "This function takes a list of testing elements, and runs them throgh classify-testing-element for each particular element, and returns a list of ordered 
 classifications."
   (when (or (null *cfi*) (null *cf*) (null *cv*) (null *av*) (null *cfi*) (null *k*))
     (error "You must call bootstrap before calling nn"))
   (let ((acp (attribute-class-probability)))
-    (loop for x in testing-set collecting (classify-testing-element acp x) into testing-elements finally (return testing-elements))))
+    (loop for x in testing-set 
+       for y = 0 then (1+ y)
+       collecting (progn
+		    (format t "Iteration: ~a~%" y)
+		    (finish-output)
+		    (classify-testing-element acp x)) into testing-elements finally (return testing-elements))))

@@ -78,3 +78,42 @@ NIL
 		   (multiple-value-bind (x y) (analyze-results (ai-bayes::nb testing-set) testing-set)
 		     (list x y))) into results
 	 finally (display-results results))))
+
+(defun display-nn-results (results))
+
+(defun analyze-nn-results (x y))
+
+(defun run-nn (folds)
+  "Pulls in the data set, class variables, splits it into 66% and 33% lengths.  Then, for each fold we create a
+random start varaible in the first 66% of the data, of that 33% of that goes into testing (using subseq, so
+this is not random as far as the data that goes into this list).  The rest of the data does into a training
+list.  From that, we bootstrap the training, class vars, and attribute vars.  We then call nb on the testing set,
+which will return a list of ordered class probabilities - which given that and the test set we pass to
+analyze results which will return two values - the first probability correct, and the second is a verbose message.
+We do this folds-number times pulling it into results.  At the end, we call display-results with this data.
+Output from this function looks something like the following, but only a small part of it:
+AI> (run-nb 1)
+Classification algorithm finished:
+Accuracy Listing: 0.99927616, 
+Accuracy Average: 0.99927616
+----------
+Details returned:
+Correct Classifications: 2761, 0.99927616
+Incorrect Classifications: 2, 7.238509e-4
+NIL
+"
+  (let* ((data-set (getDataSet))
+	 (attributes (getAttributeVariables))
+	 (classvars (getClassVariables))
+	 (66pc (floor (* (length data-set) .66)))
+	 (33pc (- (length data-set) 66pc))
+	 )
+    (loop for x upto (- folds 1)
+       for random-start-var = (random 66pc)
+       for testing-set = (subseq data-set random-start-var (+ random-start-var 33pc))
+       for training-set = (remove-if #'identity data-set :start random-start-var :count 33pc)
+	 collect (progn
+		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5)
+		   (multiple-value-bind (x y) (analyze-nn-results (ai-nn::nn testing-set) testing-set)
+		     (list x y))) into results
+	 finally (display-nn-results results))))
