@@ -1,0 +1,123 @@
+22c:145 Artificial Intelligence
+     __________________________________________________________________
+
+   Project 2
+   Due Friday, May 7, 2010
+
+   The objective of this project is to implement and test two separate
+   machine learning systems on two distinct classification data sets.
+
+      What to do
+
+     Select a classification data set from the UCI [1]machine learning
+   repository. Take some time to examine the data sets; they differ in
+   size as well as number and type of attribute (just make sure you select
+   a dataset suitable for classification).
+
+     Send Yelena a note indicating which data set you have selected (due
+   April 23).
+
+     Implement a Naive Bayes learner. Regardless of the attributes your
+   selected data set may have, make sure your system operates with both
+   integer and real attribute values (if your system needs to preprocess
+   the attributes, that's OK, as long as you document what needs to be
+   done).
+
+     Test your Naive Bayes system using an appropriate testing method.
+   Report the apparent error rate, as well as an estimate of the true
+   error rate using the appropriate testing methodology.
+
+     Implement a second classification system of your choice. You are
+   encouraged to use outside sources to understand the algorithm of your
+   choosing.
+
+     Repeat your test using the selected data set with your second
+   classification system.
+
+     On May 4, I will distribute an additional test data set: the data set
+   might be from the UCI repository, or it might not be (an alternative
+   choice will be provided in the off chance you selected my mystery data
+   set the first time).
+
+     Test both of your learning system implementations on the new test
+   data set.
+
+      What to hand in
+
+   You will be handing in code for both learning systems as well as a set
+   of four short test reports, one for each of your implementations on
+   each of the data sets (the data set of your choice as well as the data
+   set I distribute).
+
+   Along with the code for the two learning systems, you will need to hand
+   in a thorough description of each classifier (including equations and
+   citations as appropriate), as well as an overview of your
+   implementation (e.g., classes, data representation, and so on).
+   Remember that documentation -- including documentation embedded in the
+   code -- is worth as much as the code itself. If we can't understand
+   your code, we can't give you credit for it. Make sure you also provide
+   instructions for compiling and running your code (it should run on the
+   CS department's Linux machines or a standard Windows workstation).
+
+   The test reports should be presented in a uniform style, so that they
+   are easily comparable. Each report should be only about a single page
+   or so, and should include appropriate figures to really show how well
+   your system performs on the data. Be sure to provide system timings as
+   well as classification performance results (e.g., how long it took to
+   train, how long it took to classify, etc.).
+
+   Finally, discuss your results. How well does your classifier perform
+   (here, the focus is on the system of your choosing, not the Naive Bayes
+   algorithm, which is intended as a baseline)? How could it be
+   modified/augmented to improve performance?
+     __________________________________________________________________
+
+      Update
+
+   You can download the test data set [2]here. It consists of 5307 vehicle
+   test records from the National Highway Traffic Safety Administration. I
+   have selected nine columns for this particular view of the data:
+     * Make of the car being tested
+     * Model of the car being tested
+     * Year of the car being tested
+     * Company doing the testing
+     * Test configuration
+     * Test type
+     * Speed at impact
+     * Angle of impact
+     * Damage index
+
+   It's not important that you understand, necessarily, what these mean,
+   although, for example, a test type of VTV, means this is a vehicle to
+   vehicle collision: if you are curious you can look through the NHTSA
+   [3]data dictionary.
+
+   The last variable, the damage index, is the prediction variable, where
+   each index consists of 7 parameters (one per letter in the 7-letter
+   code). There are 306 distinct values, some of which are NULL or unknown
+   (for a list of legal damage codes and their frequency in the data set,
+   click [4]here). Note that some of these damage codes are quite easily
+   predicted: of the 482 12FDEW6 damage codes, only 9 occurred when the
+   angle of impact is non zero.
+
+   For the project, I'd like you to try predicting any index of your
+   choice with a reasonable number of positive instances, such as the
+   12FDEW2 index (362 instances), the 12FDEW6 index (482 instances), or
+   the O3LPAW2 index (173 instances).
+     __________________________________________________________________
+
+   Last modified: Tue May 4 2010
+
+
+    [5]The University of Iowa / [6]Department of Computer Science /
+    [7]segre@cs.uiowa.edu
+
+References
+
+   1. http://archive.ics.uci.edu/ml
+   2. http://vinci.cs.uiowa.edu/~segre/class/vehicles.csv
+   3. http://vinci.cs.uiowa.edu/~segre/class/vehdb.pdf
+   4. http://vinci.cs.uiowa.edu/~segre/class/damage.csv
+   5. http://www.uiowa.edu/
+   6. http://www.cs.uiowa.edu/
+   7. mailto:segre@cs.uiowa.edu
