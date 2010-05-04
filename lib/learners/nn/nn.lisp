@@ -10,12 +10,12 @@
 
 ; Temporary holding areas for our data (to make things easier, maybe we can avoid
 ; duplication later...
-(defvar *cv* nil)  ;cached variables
-(defvar *cf* nil)  ;cached data set (training)
-(defvar *av* nil)  ;cached attributes
-(defvar *cfi* nil) ;The class index
-(defvar *k* nil)   ;The number of nodes to take into consideration in the ranking
-
+(defvar *cv* nil)        ;cached variables
+(defvar *cf* nil)        ;cached data set (training)
+(defvar *av* nil)        ;cached attributes
+(defvar *cfi* nil)       ;The class index
+(defvar *k* nil)         ;The number of nodes to take into consideration in the ranking
+(defvar *threshold* nil) ;Our threshold variable, which is used in the modified classify-testing-element.
 
 (defun attribute-class-probability (&key (class-variables *cv*))
   (ai-bayes::bootstrap :class-var-index 0 :training-set *cf* :class-vars *cv* :attribute-vars *av*)
@@ -54,7 +54,7 @@ Example output:
 		    (abs (- (cdr (assoc class (cdr (assoc x p-attrib :test #'equalp)) :test #'equalp))
 			    (cdr (assoc class (cdr (assoc y p-attrib :test #'equalp)) :test #'equalp)))))))
 
-(defun bootstrap (&key k class-var-index training-set class-vars attribute-vars)
+(defun bootstrap (&key k class-var-index training-set class-vars attribute-vars threshold)
   "This bootstrap method is 1 of a few functions really called from the outside world.  The goal of this is to set
 some public variables to make life a little easier in debugging.  These will likely remain, although you can call any
 of the functions in this file scoped with special data.  Bootstrap just makes this more simple.
@@ -69,6 +69,7 @@ k => The number of nodes to consider for what something gets classified as."
   (setf *cf* training-set)
   (setf *cv* class-vars)
   (setf *av* attribute-vars)
+  (setf *threshold* threshold)
   t)
 
 """
@@ -106,7 +107,7 @@ This has a benefit of us possibly ending far sooner than we would have otherwise
 for us to actually finish this off... 
 """
 
-(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
+(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*) (tf *threshold*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
 we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
 in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
@@ -117,9 +118,22 @@ Example output:
  ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
   (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
 "
-  (loop for x in training-set collecting 
-       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
-       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
+  (let ((my-special-var nil))
+    (block outer-loop
+      (loop for x in training-set collecting 
+	   (progn
+	     (let* ((computed-example (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables)))
+		    (ret-val (cons (elt x class-index) computed-example)))
+	       (if (<= computed-example tf)  ;We have a computed example in our threshold
+		   (progn
+		     (setf my-special-var (append my-special-var (list ret-val)))
+		     (when (>= (length my-special-var) k)
+		       (return-from outer-loop (stable-sort my-special-var #'(lambda (x y) (if (and (not x) (not y))
+											       (if (> (cdr x) (cdr y)) nil t)
+											       t))))))
+		   ret-val)))
+	 into p-examples
+	 finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))))
 
 
 """
