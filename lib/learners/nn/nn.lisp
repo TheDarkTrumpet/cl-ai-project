@@ -119,21 +119,22 @@ Example output:
   (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
 "
   (let ((my-special-var nil))
-    (block outer-loop
-      (loop for x in training-set collecting 
-	   (progn
-	     (let* ((computed-example (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables)))
-		    (ret-val (cons (elt x class-index) computed-example)))
-	       (if (<= computed-example tf)  ;We have a computed example in our threshold
-		   (progn
-		     (setf my-special-var (append my-special-var (list ret-val)))
-		     (when (>= (length my-special-var) k)
-		       (return-from outer-loop (stable-sort my-special-var #'(lambda (x y) (if (and (not x) (not y))
-											       (if (> (cdr x) (cdr y)) nil t)
-											       t))))))
-		   ret-val)))
-	 into p-examples
-	 finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))))
+    (loop for x in training-set collecting 
+	 (progn
+	   (let* ((computed-example (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables)))
+		  (ret-val (cons (elt x class-index) computed-example)))
+	     (if (<= computed-example tf)  ;We have a computed example in our threshold
+		 (progn
+		   (setf my-special-var (append my-special-var (list ret-val)))
+		   (when (>= (length my-special-var) k)
+		     (return my-special-var)))
+		 ret-val)))
+       into p-examples
+       finally (return
+		 (if (>= (length my-special-var) k)
+		     (stable-sort my-special-var #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t)))
+		     (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))))
+		       
 
 
 """
