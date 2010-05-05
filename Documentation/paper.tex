@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage[pdftex,bookmarks=true,breaklinks=true,bookmarksnumbered=true]{hyperref}
+
+\hypersetup{
+  pdfauthor = {David Thole}
+  pdftitle = {22C145 - Artificial Intelligence Class Project}
+  pdfsubject = {22C145 - Artificial Intelligence}
+  pdfkeywords = {Artificial Intelligence,22C145,AI}
+
+\begin{document}
+
+\title{22C:145 - Class Project}
+\author{David Thole}
+\date{07May2010}
+
+% Table of Contents:
+\pdfbookmark[1]{Contents}{toc}  %%% additional bookmark for ToC
+\thispagestyle{plain}           %%% uses the above defined fancy page-header
+\tableofcontents
+\markboth{Table of Contents}{Table of Contents} %%% for the page header
+\cleardoublepage                %%% start again on odd page
+
+\section{Introduction}
+\subsection{Installation and Running}
+\subsection{Data Sets Picked}
+\subsection{Design Choices - Algorithms and Code Structure}
+
+\section{Naive Bayes}
+\subsection{Introduction}
+\subsection{Mushroom Data Performance}
+\subsection{Traffic Data Performance}
+\section{K-Nearest Neighbors}
+\subsection{Introduction}
+\subsection{Mushroom Data Performance}
+\subsection{Traffic Data Performance}
+
+
+\end{document}
