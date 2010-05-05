@@ -25,12 +25,18 @@
 \cleardoublepage                %%% start again on odd page
 
 \section{Introduction}
-\subsection{Installation and Running}
 \subsection{Data Sets Picked, language choice}
 The data set I picked for this programming problem is the \textbf{mushroom data set}, which is located http://archive.ics.uci.edu/ml/datasets/Mushroom \\
 The reason I picked this data set is because it's a binary classification problem with lots of examples.  I also wanted to test with a data set that was incredibly large, and while there are larger data sets available - this one had the right distribution through the class and feature attributes that I felt it was an ``easy'' data set to use.  I wanted to approach this problem more about trying to build efficient ways of computing - rather than a data set that is super interesting. \\
 \\
 The language I picked for this problem is \textbf{Common Lisp}, the reason why I picked this is mostly due to my comfort level in the language, and that there is little in the mining area when it comes to this particular language.  I've been toying with creating applications for work that would relate to text mining, and figured some of the concepts of what I would do for this class would hopefully work out here too.
+
+\subsection{Installation and Running}
+This tarball contains all the files needed to run this application, minus 1.  This applicaton relies on a library called fare-csv.  To install that, you will need to run:
+
+sbcl --dynamic-space-size
+(require :asdf-install)
+(asdf-install:install 'fare-csv)
 
 \subsection{Design Choices - Algorithms and Code Structure}
 The code is extremely well documented in my  opinion, so this section will be fairly short.  I built the code in such a way that it was more plugin based - with some areas heavily copied to make it easier for the reader to follow.  Ideally, there would be less copy and paste in this project, but it works the way it is now.  The graphic on the following pages explains an a picture way how the code is organized.  Each algorithm is represented as a self-encapsulated module of sorts - you can load each package without reliance on any other - except from the ai package.  I did this so the project could grow without needing to worry about name clashing.  With that in mind, most of the code that'll be of immediate interest is in the lib/main.lisp file.  This file is the starting point of the for what is run, and the analysis done.  This file is split up roughly into 2 chunks - one being dedicated to running the naive bayes algorithm and analysis of it, and the other for the k-nearest neighbors and that analysis.  I comment in the file with lots of ``;'' to denote what is going where.  Much of the stuff is duplicated for easy reading.  The next file of interest would be the lib/utils.lisp, which contains how I load the data file, get attributes/class values and so on.  In the individual packages, main.lisp will be the main file of interest for each algorithm.\\
