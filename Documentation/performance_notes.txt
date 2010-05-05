@@ -1,0 +1,17 @@
+threshold = 1
+(run-nn 25)
+  seconds  |      consed     |    calls    |  sec/call  |  name  
+-------------------------------------------------------------------
+  1755.169 |  63,857,426,656 |  86,295,752 |   0.000020 | AI-NN::TRAINING-TESTING-TO-VECTOR
+   208.574 |  31,737,719,440 |  86,295,752 |   0.000002 | AI-NN::VECTOR-DISTANCE
+   127.071 |  62,994,134,240 | 172,591,504 |   0.000001 | AI-NN::CHOP-CLASS-OFF-TRAINING
+     1.501 |      49,665,968 |          25 |   0.060038 | AI-NN::ATTRIBUTE-CLASS-PROBABILITY
+     0.000 |      13,194,784 |          25 |   0.000000 | AI-NN::NN
+     0.000 |  36,112,564,384 |      69,075 |   0.000000 | AI-NN::CLASSIFY-TESTING-ELEMENT
+     0.000 |               0 |          25 |   0.000000 | AI-NN::BOOTSTRAP
+-------------------------------------------------------------------
+  2092.315 | 194,764,705,472 | 345,252,158 |            | Total
+
+estimated total profiling overhead: 1222.19 seconds
+overhead estimation parameters:
+  1.2e-8s/call, 3.5399999e-6s total profiling, 1.6260001e-6s internal profiling
