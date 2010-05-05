@@ -15,3 +15,23 @@ threshold = 1
 estimated total profiling overhead: 1222.19 seconds
 overhead estimation parameters:
   1.2e-8s/call, 3.5399999e-6s total profiling, 1.6260001e-6s internal profiling
+
+
+Threshold = .01
+(run-nn 10)
+measuring PROFILE overhead..done
+  seconds  |      consed     |    calls    |  sec/call  |  name  
+-------------------------------------------------------------------
+  2768.121 |  99,164,824,672 | 134,773,612 |   0.000021 | AI-NN::TRAINING-TESTING-TO-VECTOR
+   327.024 |  49,548,726,080 | 134,773,612 |   0.000002 | AI-NN::VECTOR-DISTANCE
+   214.222 |  98,896,768,192 | 269,547,224 |   0.000001 | AI-NN::CHOP-CLASS-OFF-TRAINING
+     0.603 |      19,871,504 |          10 |   0.060298 | AI-NN::ATTRIBUTE-CLASS-PROBABILITY
+     0.000 |               0 |          10 |   0.000000 | AI-NN::BOOTSTRAP
+     0.000 |       6,718,752 |          10 |   0.000000 | AI-NN::NN
+     0.000 |  56,444,753,088 |      26,862 |   0.000000 | AI-NN::CLASSIFY-TESTING-ELEMENT
+-------------------------------------------------------------------
+  3309.970 | 304,081,662,288 | 539,121,340 |            | Total
+
+estimated total profiling overhead: 1885.85 seconds
+overhead estimation parameters:
+  1.2e-8s/call, 3.4979998e-6s total profiling, 1.6260001e-6s internal profiling
