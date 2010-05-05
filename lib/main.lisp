@@ -79,7 +79,33 @@ NIL
 		     (list x y))) into results
 	 finally (display-results results))))
 
-(defun analyze-nn-results (x y))
+(defun get-nn-class-element (results)
+  (let ((max-class nil)
+	(max-class-count 0))
+    (dolist (y (remove-duplicates (mapcar #'first results)))
+      (if (> (count-if #'(lambda (x) (equalp (car x) y)) *m*) max-class-count)
+	  (progn
+	    (setf max-class-count (count-if #'(lambda (x) (equalp (car x) y)) *m*))
+	    (setf max-class y))))
+    max-class))
+
+(defun analyze-nn-results (testing-results testing-set &key (class-index 0))
+  (let ((correct-classifications 0)
+	(incorrect-classifications 0))
+    (loop for x in testing-results
+	 for y in testing-set
+	 do (progn
+	      (format t "~a|~a : ~a|~a => ~a~%" (get-nn-class-element x) (type-of (get-nn-class-element x))
+		      (elt y class-index) (type-of (elt y class-index)) (equalp (get-nn-class-element x) (elt y class-index)))
+	      (if (equalp (get-nn-class-element x)
+			(elt y class-index))
+		(incf correct-classifications)
+		(incf incorrect-classifications))) )
+    (values (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
+	    (with-output-to-string (s)
+	      (format s "Correct Classifications: ~a, ~a~%Incorrect Classifications: ~a, ~a"
+		      correct-classifications (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
+		      incorrect-classifications (/ incorrect-classifications (+ correct-classifications incorrect-classifications) 1.0))))))
 
 (defun run-nn (folds)
   "Pulls in the data set, class variables, splits it into 66% and 33% lengths.  Then, for each fold we create a
