@@ -83,7 +83,7 @@ NIL
   (let ((max-class nil)
 	(max-class-count 0))
     (dolist (y (remove-duplicates (mapcar #'first results)))
-      (if (> (count-if #'(lambda (x) (equalp (car x) y)) *m*) max-class-count)
+      (if (> (count-if #'(lambda (x) (equalp (car x) y)) results) max-class-count)
 	  (progn
 	    (setf max-class-count (count-if #'(lambda (x) (equalp (car x) y)) *m*))
 	    (setf max-class y))))
@@ -95,8 +95,8 @@ NIL
     (loop for x in testing-results
 	 for y in testing-set
 	 do (progn
-	      (format t "~a|~a : ~a|~a => ~a~%" (get-nn-class-element x) (type-of (get-nn-class-element x))
-		      (elt y class-index) (type-of (elt y class-index)) (equalp (get-nn-class-element x) (elt y class-index)))
+	      ;(format t "~a|~a : ~a|~a => ~a~%" (get-nn-class-element x) (type-of (get-nn-class-element x))
+	;	      (elt y class-index) (type-of (elt y class-index)) (equalp (get-nn-class-element x) (elt y class-index)))
 	      (if (equalp (get-nn-class-element x)
 			(elt y class-index))
 		(incf correct-classifications)
@@ -139,7 +139,10 @@ NIL
 	 collect (progn
 		   (format t "Running fold #:~a~%" (1+ x))
 		   (finish-output)
-		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold 1)
-		   (multiple-value-bind (x y) (analyze-nn-results (ai-nn::nn testing-set) testing-set)
+		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold .1)
+		   (multiple-value-bind (x y)
+		     (setf *nn* (ai-nn::nn testing-set))
+		     (setf *ts* testing-set)
+		     (analyze-nn-results *nn* testing-set)
 		     (list x y))) into results
 	 finally (display-results results))))
