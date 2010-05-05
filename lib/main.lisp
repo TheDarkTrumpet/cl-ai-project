@@ -85,7 +85,7 @@ NIL
     (dolist (y (remove-duplicates (mapcar #'first results)))
       (if (> (count-if #'(lambda (x) (equalp (car x) y)) results) max-class-count)
 	  (progn
-	    (setf max-class-count (count-if #'(lambda (x) (equalp (car x) y)) *m*))
+	    (setf max-class-count (count-if #'(lambda (x) (equalp (car x) y)) results))
 	    (setf max-class y))))
     max-class))
 
@@ -141,6 +141,6 @@ NIL
 		   (finish-output)
 		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold .01)
 		   (multiple-value-bind (x y)
-		     (analyze-nn-results *nn* testing-set)
+		     (analyze-nn-results (ai-nn::nn testing-set) testing-set)
 		     (list x y))) into results
 	 finally (return (display-results results)))))

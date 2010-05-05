@@ -83,20 +83,20 @@ k => The number of nodes to consider for what something gets classified as."
 ;commenting out the relevant sections (use ;) and uncommenting out the other sections.  Needless to say this took awhile, and I got tired of waiting after 5m"
 ;
 
-(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
-  "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
-we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
-in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
-acp => Our attribute-class-probability list of a-lists.
-example => Our testing example (assumes our class variable is still present, hence the class-index)
-Example output:
- AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
- ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
-  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
-"
-  (loop for x in training-set collecting 
-       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
-       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
+;(defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
+;  "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
+;we go through each element in the training set, finding out the distance of that element to our example pass in.  We loop through all elements
+;in our training set doing this - at the end, we do a sort on the elements by ascending order taking only the first k values.
+;acp => Our attribute-class-probability list of a-lists.
+;example => Our testing example (assumes our class variable is still present, hence the class-index)
+;Example output:
+; AI-NN> (classify-testing-element (attribute-class-probability) *z* :training-set (subseq *cf* 0 10))
+; ((\"poisonous\" . 0.0) (\"poisonous\" . 0.036825806) (\"poisonous\" . 0.2145414)
+;  (\"edible\" . 0.35535172) (\"edible\" . 0.36859018))
+;"
+;  (loop for x in training-set collecting 
+;       (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
+;       finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
 
 
 ;******************************** MORE EFFICIENT NOTE ************************************
