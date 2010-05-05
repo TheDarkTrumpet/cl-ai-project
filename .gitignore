@@ -12,4 +12,7 @@
 *.#*
 *.log
 *.pdf
+*.aux
+*.out
+*.toc
 *.sqlite3
