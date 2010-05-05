@@ -72,16 +72,16 @@ k => The number of nodes to consider for what something gets classified as."
   (setf *threshold* threshold)
   t)
 
-"""
-******************************** INEFFICIENCY NOTE ************************************
-Note:
-This function listed below, along with the nn associated with it right below this are INEFFICIENT. I'm leaving the code here as a bit to explaining likely the 
-perfect solution way of going about this.  If we take into account every element in the data set, we are guaranteed to find their nearest neighbors.  With 8000
-elements, though, this is pretty much stupid..not impossible, but 10-fold on this large of a set takes awhile.
-
-I'm leaving the code here as a demo, but below this set of code you'll find the exact same functions, that include a weight.  These are passed in the bootstrap
-process, so I don't need to change the run-nn function from main.lisp in a way that would depend on these.  You can run one over the other if you *really* want to by simply
-commenting out the relevant sections (use ;) and uncommenting out the other sections.  Needless to say this took awhile, and I got tired of waiting after 5m"
+;******************************** INEFFICIENCY NOTE ************************************
+;Note:
+;This function listed below, along with the nn associated with it right below this are INEFFICIENT. I'm leaving the code here as a bit to explaining likely the 
+;perfect solution way of going about this.  If we take into account every element in the data set, we are guaranteed to find their nearest neighbors.  With 8000
+;elements, though, this is pretty much stupid..not impossible, but 10-fold on this large of a set takes awhile.
+;
+;I'm leaving the code here as a demo, but below this set of code you'll find the exact same functions, that include a weight.  These are passed in the bootstrap
+;process, so I don't need to change the run-nn function from main.lisp in a way that would depend on these.  You can run one over the other if you *really* want to by simply
+;commenting out the relevant sections (use ;) and uncommenting out the other sections.  Needless to say this took awhile, and I got tired of waiting after 5m"
+;
 
 (defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
@@ -98,14 +98,13 @@ Example output:
        (cons (elt x class-index) (vector-distance (training-testing-to-vector acp example x :class-index class-index :class-variables class-variables))) into p-examples
        finally (return (subseq (stable-sort p-examples #'(lambda (x y) (if (> (cdr x) (cdr y)) nil t))) 0 k))))
 
-"""
-******************************** MORE EFFICIENT NOTE ************************************
-The function below for classify-testing-element will basically act as exactly the same above, but we'll keep track of the threshold and if the values sit within that threshold, we'll
-store the values into a special variable.  The point of this is so that when our threshold reaches k, we can say we're done and just return the stable sort on those elements.
 
-This has a benefit of us possibly ending far sooner than we would have otherwise, but a problem that our error rate can increase quite a bit if we're not careful.  The right balance is nessary
-for us to actually finish this off... 
-"""
+;******************************** MORE EFFICIENT NOTE ************************************
+;The function below for classify-testing-element will basically act as exactly the same above, but we'll keep track of the threshold and if the values sit within that threshold, we'll
+;store the values into a special variable.  The point of this is so that when our threshold reaches k, we can say we're done and just return the stable sort on those elements.
+;
+;This has a benefit of us possibly ending far sooner than we would have otherwise, but a problem that our error rate can increase quite a bit if we're not careful.  The right balance is nessary
+;for us to actually finish this off...
 
 (defun classify-testing-element (acp example &key (training-set *cf*) (class-index *cfi*) (class-variables *cv*) (k *k*) (tf *threshold*))
   "Given an acp, that being an attribute-class-probability list, a specific example, and optional training set, class index, and class vars,
@@ -136,11 +135,11 @@ Example output:
 		       
 
 
-"""
-Below is an alternate way of defining nn.  What we'll do is accept a threshold of sorts.  If it is within this threshold, we'll put this into a special variable. When the count > our k, we'll
-just return that.  The benefit here is that we can likely end much sooner than we normally would.  The negative is that we can increase our error rate  if this threshold is set too high.  If it's
-too low, we'll basically just do nn like above...
-"""
+
+;Below is an alternate way of defining nn.  What we'll do is accept a threshold of sorts.  If it is within this threshold, we'll put this into a special variable. When the count > our k, we'll
+;just return that.  The benefit here is that we can likely end much sooner than we normally would.  The negative is that we can increase our error rate  if this threshold is set too high.  If it's
+;too low, we'll basically just do nn like above...
+
 (defun nn (testing-set)
   "This function takes a list of testing elements, and runs them throgh classify-testing-element for each particular element, and returns a list of ordered 
 classifications."

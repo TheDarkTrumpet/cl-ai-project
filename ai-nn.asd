@@ -17,4 +17,5 @@
   :description "This is the Nearest Neighbors learning algorithm for classification"
   :components ((:file "lib/learners/nn/package")
 	       (:file "lib/learners/nn/nn"))
+  :depends-on (:ai-bayes)
   :serial t)
