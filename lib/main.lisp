@@ -145,4 +145,4 @@ NIL
 		     (setf *ts* testing-set)
 		     (analyze-nn-results *nn* testing-set)
 		     (list x y))) into results
-	 finally (display-results results))))
+	 finally (return results))))
