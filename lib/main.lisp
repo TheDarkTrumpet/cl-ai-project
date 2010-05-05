@@ -139,10 +139,8 @@ NIL
 	 collect (progn
 		   (format t "Running fold #:~a~%" (1+ x))
 		   (finish-output)
-		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold .1)
+		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold .01)
 		   (multiple-value-bind (x y)
-		     (setf *nn* (ai-nn::nn testing-set))
-		     (setf *ts* testing-set)
 		     (analyze-nn-results *nn* testing-set)
 		     (list x y))) into results
-	 finally (return results))))
+	 finally (return (display-results results)))))
