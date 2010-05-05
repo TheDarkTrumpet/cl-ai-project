@@ -79,8 +79,6 @@ NIL
 		     (list x y))) into results
 	 finally (display-results results))))
 
-(defun display-nn-results (results))
-
 (defun analyze-nn-results (x y))
 
 (defun run-nn (folds)
@@ -118,4 +116,4 @@ NIL
 		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold 1)
 		   (multiple-value-bind (x y) (analyze-nn-results (ai-nn::nn testing-set) testing-set)
 		     (list x y))) into results
-	 finally (display-nn-results results))))
+	 finally (display-results results))))
