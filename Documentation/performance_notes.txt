@@ -16,6 +16,7 @@ estimated total profiling overhead: 1222.19 seconds
 overhead estimation parameters:
   1.2e-8s/call, 3.5399999e-6s total profiling, 1.6260001e-6s internal profiling
 
+================================
 
 Threshold = .01
 (run-nn 10)
@@ -35,3 +36,148 @@ measuring PROFILE overhead..done
 estimated total profiling overhead: 1885.85 seconds
 overhead estimation parameters:
   1.2e-8s/call, 3.4979998e-6s total profiling, 1.6260001e-6s internal profiling
+
+=============================
+
+Threshold .001
+
+AI> (run-nn 20)
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Running fold #:11
+Running fold #:12
+Running fold #:13
+Running fold #:14
+Running fold #:15
+Running fold #:16
+Running fold #:17
+Running fold #:18
+Running fold #:19
+Running fold #:20
+Classification algorithm finished:
+Accuracy Listing: 1.0, 0.9569309, 0.99819034, 0.9844372, 0.9985523, 0.92797685, 0.965979, 0.99891424, 0.97068405, 1.0, 0.985523, 0.9667029, 0.995295, 1.0, 0.97502714, 1.0, 0.96778864, 0.96525514, 0.9674267, 1.0, 
+Accuracy Average: 0.9812342
+----------
+Details returned:
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2644, 0.9569309
+Incorrect Classifications: 119, 0.043069128
+Correct Classifications: 2758, 0.99819034
+Incorrect Classifications: 5, 0.0018096272
+Correct Classifications: 2720, 0.9844372
+Incorrect Classifications: 43, 0.015562794
+Correct Classifications: 2759, 0.9985523
+Incorrect Classifications: 4, 0.0014477018
+Correct Classifications: 2564, 0.92797685
+Incorrect Classifications: 199, 0.07202316
+Correct Classifications: 2669, 0.965979
+Incorrect Classifications: 94, 0.03402099
+Correct Classifications: 2760, 0.99891424
+Incorrect Classifications: 3, 0.0010857764
+Correct Classifications: 2682, 0.97068405
+Incorrect Classifications: 81, 0.029315962
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2723, 0.985523
+Incorrect Classifications: 40, 0.014477017
+Correct Classifications: 2671, 0.9667029
+Incorrect Classifications: 92, 0.03329714
+Correct Classifications: 2750, 0.995295
+Incorrect Classifications: 13, 0.004705031
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2694, 0.97502714
+Incorrect Classifications: 69, 0.024972856
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2674, 0.96778864
+Incorrect Classifications: 89, 0.032211363
+Correct Classifications: 2667, 0.96525514
+Incorrect Classifications: 96, 0.034744844
+Correct Classifications: 2673, 0.9674267
+Incorrect Classifications: 90, 0.03257329
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+NIL
+AI> 
+
+================================
+
+Threshold 10
+AI> (run-nn 20)
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Running fold #:11
+Running fold #:12
+Running fold #:13
+Running fold #:14
+Running fold #:15
+Running fold #:16
+Running fold #:17
+Running fold #:18
+Running fold #:19
+Running fold #:20
+Classification algorithm finished:
+Accuracy Listing: 0.13463627, 0.83821934, 0.1393413, 0.5204488, 0.2019544, 0.13427433, 0.19399203, 0.15164676, 0.903004, 0.76474845, 0.70575464, 0.723489, 0.80745566, 0.24574737, 0.18422005, 0.2175172, 0.81686574, 0.8957655, 0.1465798, 0.33622873, 
+Accuracy Average: 0.45309448
+----------
+Details returned:
+Correct Classifications: 372, 0.13463627
+Incorrect Classifications: 2391, 0.8653637
+Correct Classifications: 2316, 0.83821934
+Incorrect Classifications: 447, 0.16178067
+Correct Classifications: 385, 0.1393413
+Incorrect Classifications: 2378, 0.8606587
+Correct Classifications: 1438, 0.5204488
+Incorrect Classifications: 1325, 0.47955123
+Correct Classifications: 558, 0.2019544
+Incorrect Classifications: 2205, 0.7980456
+Correct Classifications: 371, 0.13427433
+Incorrect Classifications: 2392, 0.86572564
+Correct Classifications: 536, 0.19399203
+Incorrect Classifications: 2227, 0.806008
+Correct Classifications: 419, 0.15164676
+Incorrect Classifications: 2344, 0.84835327
+Correct Classifications: 2495, 0.903004
+Incorrect Classifications: 268, 0.09699602
+Correct Classifications: 2113, 0.76474845
+Incorrect Classifications: 650, 0.23525153
+Correct Classifications: 1950, 0.70575464
+Incorrect Classifications: 813, 0.2942454
+Correct Classifications: 1999, 0.723489
+Incorrect Classifications: 764, 0.27651104
+Correct Classifications: 2231, 0.80745566
+Incorrect Classifications: 532, 0.19254434
+Correct Classifications: 679, 0.24574737
+Incorrect Classifications: 2084, 0.7542526
+Correct Classifications: 509, 0.18422005
+Incorrect Classifications: 2254, 0.8157799
+Correct Classifications: 601, 0.2175172
+Incorrect Classifications: 2162, 0.7824828
+Correct Classifications: 2257, 0.81686574
+Incorrect Classifications: 506, 0.18313427
+Correct Classifications: 2475, 0.8957655
+Incorrect Classifications: 288, 0.104234524
+Correct Classifications: 405, 0.1465798
+Incorrect Classifications: 2358, 0.8534202
+Correct Classifications: 929, 0.33622873
+Incorrect Classifications: 1834, 0.6637713
+NIL
+
