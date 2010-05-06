@@ -76,3 +76,8 @@ then remove duplicates afterwards"
   "Returns the data set, which can be a copy of the cached data set file"
   (with-data-set (v :file file)
     v))
+
+(defun clear-all-variables ()
+  (setf *data-set-file* nil)
+  (setf *cached-variables* nil)
+  (setf *cached-data-set* nil))

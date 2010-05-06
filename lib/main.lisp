@@ -150,9 +150,10 @@ NIL
 (defun run-everything ()
   (dolist (x '(#P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv"
 	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/traffic.csv"))
+    (clear-all-variables)
     (setf *data-set-file* x)
     (format t "Processing CSV: ~a -- first with naive bayes, second with nearest neighbors~%" x)
-    (run-nb 10)
+    (run-nb 20)
     (format t "~%~%")
-    (run-nn 10)
+    (run-nn 20)
     (format t "~%~%")))
