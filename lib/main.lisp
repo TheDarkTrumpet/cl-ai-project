@@ -154,4 +154,5 @@ NIL
     (format t "Processing CSV: ~a -- first with naive bayes, second with nearest neighbors~%" x)
     (run-nb 10)
     (format t "~%~%")
-    (run-nn 10)))
+    (run-nn 10)
+    (format t "~%~%")))

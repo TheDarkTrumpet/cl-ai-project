@@ -3,6 +3,7 @@
 \usepackage[english]{babel}
 \usepackage[pdftex]{graphicx}
 \usepackage[pdftex,bookmarks=true,breaklinks=true,bookmarksnumbered=true]{hyperref}
+\usepackage{listings}
 
 %Use package listings here for the syntax highlighting.
 
@@ -36,9 +37,30 @@ The language I picked for this problem is \textbf{Common Lisp}, the reason why I
 \subsection{Installation and Running}
 This tarball contains all the files needed to run this application, minus 1.  This applicaton relies on a library called fare-csv.  To install that, you will need to run:
 
+\begin{lstlisting}[frame=single,language=lisp]
 sbcl --dynamic-space-size
 (require :asdf-install)
 (asdf-install:install 'fare-csv)
+\end{lstlisting}
+
+To run the individual examples, there are a few differnet functions available:
+\begin{lstlisting}[frame=single,language=lisp]
+(run-everything)
+(run-nb [folds])
+(run-nn [folds])
+\end{lstlisting}
+
+An example, of running the naive bayes algorithm on the default data, with 10-fold cross validation, would be:
+\begin{lstlisting}[frame=single,language=lisp]
+(run-nb 10)
+\end{lstlisting}
+
+An important thing to note, that you'll likely run into is that it is looking for the data file (verify this is a problem before handing in)
+
+To set a differnet file to be analyzed, all you need to do is run the following:
+\begin{lstlisting}[frame=single,language=lisp]
+(setf *data-set-file* #P"path/to/file.csv")
+\end{lstlisting}
 
 \subsection{Design Choices - Algorithms and Code Structure}
 The code is extremely well documented in my  opinion, so this section will be fairly short.  I built the code in such a way that it was more plugin based - with some areas heavily copied to make it easier for the reader to follow.  Ideally, there would be less copy and paste in this project, but it works the way it is now.  The graphic on the following pages explains an a picture way how the code is organized.  Each algorithm is represented as a self-encapsulated module of sorts - you can load each package without reliance on any other - except from the ai package.  I did this so the project could grow without needing to worry about name clashing.  With that in mind, most of the code that'll be of immediate interest is in the lib/main.lisp file.  This file is the starting point of the for what is run, and the analysis done.  This file is split up roughly into 2 chunks - one being dedicated to running the naive bayes algorithm and analysis of it, and the other for the k-nearest neighbors and that analysis.  I comment in the file with lots of ``;'' to denote what is going where.  Much of the stuff is duplicated for easy reading.  The next file of interest would be the lib/utils.lisp, which contains how I load the data file, get attributes/class values and so on.  In the individual packages, main.lisp will be the main file of interest for each algorithm.\\
@@ -48,14 +70,20 @@ The algorithm I picked, besides the requested naive bayes, was k-nearest neighbo
 \rotatebox{90}{
   \includegraphics[scale=0.75]{flowchart.png}
 }
-\section{Naive Bayes}
-\subsection{Introduction}
-\subsection{Mushroom Data Performance}
-\subsection{Traffic Data Performance}
-\section{K-Nearest Neighbors}
-\subsection{Introduction}
-\subsection{Mushroom Data Performance}
-\subsection{Traffic Data Performance}
+
+\section{Algorithms and Performance Measures}
+\subsection{Naive Bayes}
+\subsubsection{Introduction}
+\subsubsection{Mushroom Data Performance}
+\textbf{Execution performance} of this algorithm is incredibly quick, around 0.8 seconds for both training and classifying for all 10 iterations.  While this is a lot more than than the weka version, the performance is quite good enough.\\
+The \textbf{Error Rate} of this algorithm is pretty good as well.  Testing the mushroom data set with weka, I got around 95\%.  With my algorithm? about 93\% (Range has been between 89\% and 96\%).
+\subsubsection{Traffic Data Performance}
+\textbf{Execution performance} of this algorithm is incredibly quick, around 0.8 seconds for both training and classifying for all 10 iterations.  While this is a lot more than than the weka version, the performance is quite good enough.\\
+The \textbf{Error Rate} of this algorithm is pretty good as well.  Testing the traffic data set with weka, I got around 86\%.  With my algorithm? about 85\% on average.
+\subsection{K-Nearest Neighbors}
+\subsubsection{Introduction}
+\subsubsection{Mushroom Data Performance}
+\subsubsection{Traffic Data Performance}
 
 
 \end{document}

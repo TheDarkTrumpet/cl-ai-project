@@ -181,3 +181,141 @@ Correct Classifications: 929, 0.33622873
 Incorrect Classifications: 1834, 0.6637713
 NIL
 
+
+
+
+======== Running everything ======
+
+AI> (run-everything)
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- first with naive bayes, second with nearest neighbors
+Classification algorithm finished:
+Accuracy Listing: 1.0, 0.65834236, 0.9435396, 0.9945711, 0.9960188, 0.9062613, 1.0, 0.9062613, 1.0, 0.8132465, 
+Accuracy Average: 0.92182416
+----------
+Details returned:
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 1819, 0.65834236
+Incorrect Classifications: 944, 0.3416576
+Correct Classifications: 2607, 0.9435396
+Incorrect Classifications: 156, 0.05646037
+Correct Classifications: 2748, 0.9945711
+Incorrect Classifications: 15, 0.005428882
+Correct Classifications: 2752, 0.9960188
+Incorrect Classifications: 11, 0.00398118
+Correct Classifications: 2504, 0.9062613
+Incorrect Classifications: 259, 0.09373869
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2504, 0.9062613
+Incorrect Classifications: 259, 0.09373869
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2247, 0.8132465
+Incorrect Classifications: 516, 0.18675353
+
+
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Classification algorithm finished:
+Accuracy Listing: 1.0, 1.0, 1.0, 1.0, 0.9743033, 0.8512486, 0.88563156, 0.8320666, 0.98769456, 0.9641694, 
+Accuracy Average: 0.9495114
+----------
+Details returned:
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2692, 0.9743033
+Incorrect Classifications: 71, 0.025696706
+Correct Classifications: 2352, 0.8512486
+Incorrect Classifications: 411, 0.14875136
+Correct Classifications: 2447, 0.88563156
+Incorrect Classifications: 316, 0.11436844
+Correct Classifications: 2299, 0.8320666
+Incorrect Classifications: 464, 0.1679334
+Correct Classifications: 2729, 0.98769456
+Incorrect Classifications: 34, 0.0123054655
+Correct Classifications: 2664, 0.9641694
+Incorrect Classifications: 99, 0.03583062
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/traffic.csv -- first with naive bayes, second with nearest neighbors
+Classification algorithm finished:
+Accuracy Listing: 1.0, 0.7238509, 0.8935939, 1.0, 0.6644951, 0.6713717, 0.8917843, 0.99493307, 1.0, 0.6525516, 
+Accuracy Average: 0.84925807
+----------
+Details returned:
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2000, 0.7238509
+Incorrect Classifications: 763, 0.27614912
+Correct Classifications: 2469, 0.8935939
+Incorrect Classifications: 294, 0.10640608
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 1836, 0.6644951
+Incorrect Classifications: 927, 0.3355049
+Correct Classifications: 1855, 0.6713717
+Incorrect Classifications: 908, 0.3286283
+Correct Classifications: 2464, 0.8917843
+Incorrect Classifications: 299, 0.108215705
+Correct Classifications: 2749, 0.99493307
+Incorrect Classifications: 14, 0.0050669564
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 1803, 0.6525516
+Incorrect Classifications: 960, 0.34744844
+
+
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Classification algorithm finished:
+Accuracy Listing: 0.9873326, 1.0, 0.9826276, 1.0, 0.98769456, 0.9746652, 0.9837133, 1.0, 0.9913138, 0.93051034, 
+Accuracy Average: 0.98378575
+----------
+Details returned:
+Correct Classifications: 2728, 0.9873326
+Incorrect Classifications: 35, 0.0126673905
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2715, 0.9826276
+Incorrect Classifications: 48, 0.017372422
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2729, 0.98769456
+Incorrect Classifications: 34, 0.0123054655
+Correct Classifications: 2693, 0.9746652
+Incorrect Classifications: 70, 0.025334781
+Correct Classifications: 2718, 0.9837133
+Incorrect Classifications: 45, 0.016286645
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2739, 0.9913138
+Incorrect Classifications: 24, 0.008686211
+Correct Classifications: 2571, 0.93051034
+Incorrect Classifications: 192, 0.06948969
+NIL
+AI> 
+
+
+
+===== Performance of algorithms =====
