@@ -149,7 +149,7 @@ NIL
 ;;;;;;; RUN BOTH ;;;;;;;;
 (defun run-everything ()
   (dolist (x '(#P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv"
-	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/traffic.csv"))
+	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv"))
     (clear-all-variables)
     (setf *data-set-file* x)
     (format t "Processing CSV: ~a -- first with naive bayes, second with nearest neighbors~%" x)
