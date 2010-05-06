@@ -107,7 +107,7 @@ NIL
 		      correct-classifications (/ correct-classifications (+ correct-classifications incorrect-classifications) 1.0)
 		      incorrect-classifications (/ incorrect-classifications (+ correct-classifications incorrect-classifications) 1.0))))))
 
-(defun run-nn (folds)
+(defun run-nn (folds &key (threshold .01) (k 5))
   "Pulls in the data set, class variables, splits it into 66% and 33% lengths.  Then, for each fold we create a
 random start varaible in the first 66% of the data, of that 33% of that goes into testing (using subseq, so
 this is not random as far as the data that goes into this list).  The rest of the data does into a training
@@ -139,7 +139,7 @@ NIL
 	 collect (progn
 		   (format t "Running fold #:~a~%" (1+ x))
 		   (finish-output)
-		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k 5 :threshold .01)
+		   (ai-nn::bootstrap :class-var-index 0 :training-set training-set :class-vars classvars :attribute-vars attributes :k k :threshold threshold)
 		   (multiple-value-bind (x y)
 		     (analyze-nn-results (ai-nn::nn testing-set) testing-set)
 		     (list x y))) into results
@@ -147,13 +147,18 @@ NIL
 
 
 ;;;;;;; RUN BOTH ;;;;;;;;
-(defun run-everything ()
+(defun run-everything (&key (folds 10))
   (dolist (x '(#P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv"
 	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv"))
+    (format t "Processing CSV: ~a -- Naive Bayes~%" x)
     (clear-all-variables)
     (setf *data-set-file* x)
-    (format t "Processing CSV: ~a -- first with naive bayes, second with nearest neighbors~%" x)
-    (run-nb 20)
+    (run-nb folds)
+    (clear-all-variables)
+    (setf *data-set-file* x)
     (format t "~%~%")
-    (run-nn 20)
-    (format t "~%~%")))
+    (dolist (k-values '(1 5))
+      (dolist (threshold-val '(1 .1 .01 .001))
+	(format t "Processing CSV: ~a -- Nearest Neighbors with, k=~a and threshold=~a~%" x k-values threshold-val)
+	(run-nn folds :threshold threshold-val :k k-values)
+	(format t "~%~%")))))
