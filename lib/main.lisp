@@ -144,3 +144,14 @@ NIL
 		     (analyze-nn-results (ai-nn::nn testing-set) testing-set)
 		     (list x y))) into results
 	 finally (return (display-results results)))))
+
+
+;;;;;;; RUN BOTH ;;;;;;;;
+(defun run-everything ()
+  (dolist (x '(#P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv"
+	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/traffic.csv"))
+    (setf *data-set-file* x)
+    (format t "Processing CSV: ~a -- first with naive bayes, second with nearest neighbors~%" x)
+    (run-nb 10)
+    (format t "~%~%")
+    (run-nn 10)))

@@ -30,7 +30,7 @@ will not store the cache"
        (,cachep
 	(if (null *cached-data-set*)
 	    (progn
-	      (setf *cached-data-set* (loadEntireDataSet :file ,file))
+	      (setf *cached-data-set* (stringifyDataVector (loadEntireDataSet :file ,file)))
 	      (setf ,v (copy-seq *cached-data-set*)))
 	    (setf ,v (copy-seq *cached-data-set*))))
        (t
@@ -38,6 +38,13 @@ will not store the cache"
      ,@body))
 
 ;;;;;;;;;;; Used by some of the macros to cache the data ;;;;;;;;;;;;;;;
+(defun stringifyDataVector (data-set)
+  (loop for x in data-set collecting
+       (mapcar #'(lambda (x)
+		   (if (numberp x)
+		       (write-to-string x)
+		       x)) x) into datas finally (return datas)))
+
 (defun getAllVariables (&key (file *data-set-file*))
   "Parses through the entire data-set file grabbing all the variables.  The one issue is this is pretty inefficient in terms of memory, we load everything,
 then remove duplicates afterwards"
