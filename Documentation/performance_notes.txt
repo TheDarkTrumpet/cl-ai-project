@@ -318,4 +318,168 @@ AI>
 
 
 
-===== Performance of algorithms =====
+===== Running all again, with Performance of algorithms =====
+AI> (run-everything)
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- first with naive bayes, second with nearest neighbors
+Classification algorithm finished:
+Accuracy Listing: 0.9294245, 0.99927616, 0.99891424, 0.9203764, 1.0, 0.87368804, 0.9971046, 0.9960188, 1.0, 0.94643503, 
+Accuracy Average: 0.9661239
+----------
+Details returned:
+Correct Classifications: 2568, 0.9294245
+Incorrect Classifications: 195, 0.07057546
+Correct Classifications: 2761, 0.99927616
+Incorrect Classifications: 2, 7.238509e-4
+Correct Classifications: 2760, 0.99891424
+Incorrect Classifications: 3, 0.0010857764
+Correct Classifications: 2543, 0.9203764
+Incorrect Classifications: 220, 0.079623595
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2414, 0.87368804
+Incorrect Classifications: 349, 0.12631197
+Correct Classifications: 2755, 0.9971046
+Incorrect Classifications: 8, 0.0028954037
+Correct Classifications: 2752, 0.9960188
+Incorrect Classifications: 11, 0.00398118
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2615, 0.94643503
+Incorrect Classifications: 148, 0.053564966
+
+
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Classification algorithm finished:
+Accuracy Listing: 0.9971046, 1.0, 1.0, 0.8975751, 1.0, 0.9826276, 0.98697066, 1.0, 1.0, 0.9829895, 
+Accuracy Average: 0.9847267
+----------
+Details returned:
+Correct Classifications: 2755, 0.9971046
+Incorrect Classifications: 8, 0.0028954037
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2480, 0.8975751
+Incorrect Classifications: 283, 0.1024249
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2715, 0.9826276
+Incorrect Classifications: 48, 0.017372422
+Correct Classifications: 2727, 0.98697066
+Incorrect Classifications: 36, 0.0130293155
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2716, 0.9829895
+Incorrect Classifications: 47, 0.017010495
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/traffic.csv -- first with naive bayes, second with nearest neighbors
+Classification algorithm finished:
+Accuracy Listing: 0.9945711, 0.99384725, 0.99384725, 0.99493307, 0.9062613, 0.9062613, 0.98769456, 0.995295, 0.9945711, 0.99674267, 
+Accuracy Average: 0.97640246
+----------
+Details returned:
+Correct Classifications: 2748, 0.9945711
+Incorrect Classifications: 15, 0.005428882
+Correct Classifications: 2746, 0.99384725
+Incorrect Classifications: 17, 0.0061527328
+Correct Classifications: 2746, 0.99384725
+Incorrect Classifications: 17, 0.0061527328
+Correct Classifications: 2749, 0.99493307
+Incorrect Classifications: 14, 0.0050669564
+Correct Classifications: 2504, 0.9062613
+Incorrect Classifications: 259, 0.09373869
+Correct Classifications: 2504, 0.9062613
+Incorrect Classifications: 259, 0.09373869
+Correct Classifications: 2729, 0.98769456
+Incorrect Classifications: 34, 0.0123054655
+Correct Classifications: 2750, 0.995295
+Incorrect Classifications: 13, 0.004705031
+Correct Classifications: 2748, 0.9945711
+Incorrect Classifications: 15, 0.005428882
+Correct Classifications: 2754, 0.99674267
+Incorrect Classifications: 9, 0.0032573289
+
+
+Running fold #:1
+Running fold #:2
+Running fold #:3
+Running fold #:4
+Running fold #:5
+Running fold #:6
+Running fold #:7
+Running fold #:8
+Running fold #:9
+Running fold #:10
+Classification algorithm finished:
+Accuracy Listing: 0.8320666, 0.8320666, 0.9884184, 0.9743033, 1.0, 1.0, 0.98697066, 0.8320666, 0.9630836, 1.0, 
+Accuracy Average: 0.9408976
+----------
+Details returned:
+Correct Classifications: 2299, 0.8320666
+Incorrect Classifications: 464, 0.1679334
+Correct Classifications: 2299, 0.8320666
+Incorrect Classifications: 464, 0.1679334
+Correct Classifications: 2731, 0.9884184
+Incorrect Classifications: 32, 0.011581615
+Correct Classifications: 2692, 0.9743033
+Incorrect Classifications: 71, 0.025696706
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+Correct Classifications: 2727, 0.98697066
+Incorrect Classifications: 36, 0.0130293155
+Correct Classifications: 2299, 0.8320666
+Incorrect Classifications: 464, 0.1679334
+Correct Classifications: 2661, 0.9630836
+Incorrect Classifications: 102, 0.036916394
+Correct Classifications: 2763, 1.0
+Incorrect Classifications: 0, 0.0
+  seconds  |      consed     |     calls     |  sec/call  |  name  
+---------------------------------------------------------------------
+  5458.657 | 196,909,420,000 |   267,549,752 |   0.000020 | AI-NN::TRAINING-TESTING-TO-VECTOR
+   659.057 |  98,366,809,936 |   267,549,752 |   0.000002 | AI-NN::VECTOR-DISTANCE
+   457.221 | 196,285,574,256 |   535,099,504 |   0.000001 | AI-NN::CHOP-CLASS-OFF-TRAINING
+     1.827 |      79,474,432 |            40 |   0.045673 | AI-BAYES::ATTRIBUTE-CLASS-COUNTER
+     0.824 |      35,225,824 |        55,260 |   0.000015 | AI-BAYES::CLASSIFY-TESTING-ELEMENT
+     0.260 |      21,157,280 |        55,260 |   0.000005 | AI::GET-NN-CLASS-ELEMENT
+     0.072 |               0 |            40 |   0.001798 | AI-BAYES::CLASS-COUNT
+     0.060 |      10,728,112 |            20 |   0.003010 | AI::ANALYZE-NN-RESULTS
+     0.023 |          36,192 |            20 |   0.001148 | AI::ANALYZE-RESULTS
+     0.019 |               0 |        55,260 |  0.0000003 | AI-BAYES::NORMALIZE-PROBABILITY
+     0.006 |               0 |            20 |   0.000298 | AI-NN::BOOTSTRAP
+     0.006 |           8,176 |            40 |   0.000143 | AI-BAYES::ATTRIBUTE-CLASS-PROBABILITY
+     0.002 |               0 |            20 |   0.000089 | AI-NN::ATTRIBUTE-CLASS-PROBABILITY
+     0.001 |          99,296 |             4 |   0.000248 | AI::DISPLAY-RESULTS
+     0.001 |           8,176 |            40 |   0.000023 | AI-BAYES::CLASS-PROBABILITY
+     0.000 |         520,192 |             4 |   0.000000 | AI::GETDATASET
+     0.000 |       2,837,648 |             2 |   0.000000 | AI::RUN-NN
+     0.000 |          11,792 |             1 |   0.000000 | AI::RUN-EVERYTHING
+     0.000 |       2,617,312 |             2 |   0.000000 | AI::RUN-NB
+     0.000 |           4,096 |             4 |   0.000000 | AI:GETATTRIBUTEVARIABLES
+     0.000 |           8,192 |             4 |   0.000000 | AI:GETCLASSVARIABLES
+     0.000 |      12,521,024 |            20 |   0.000000 | AI-BAYES::NB
+     0.000 |               0 |            40 |   0.000000 | AI-BAYES::BOOTSTRAP
+     0.000 |      13,695,872 |            20 |   0.000000 | AI-NN::NN
+     0.000 | 112,040,182,448 |        55,260 |   0.000000 | AI-NN::CLASSIFY-TESTING-ELEMENT
+---------------------------------------------------------------------
+  6578.036 | 603,780,940,256 | 1,070,420,389 |            | Total
+
+estimated total profiling overhead: 3748.61 seconds
+overhead estimation parameters:
+  1.e-8s/call, 3.5020003e-6s total profiling, 1.5700001e-6s internal profiling
+
+These functions were not called:
+ AI::GETALLVARIABLES AI::LOADENTIREDATASET AI::STRINGIFYDATAVECTOR
+NIL
