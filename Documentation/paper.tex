@@ -72,6 +72,30 @@ The algorithm I picked, besides the requested naive bayes, was k-nearest neighbo
 }
 
 \section{Algorithms and Performance Measures}
+\subsection{Tabular Accuracy Measures}
+For the values below, I worked at trying 20-fold cross validation to try and get the most accurate average possible.
+\\
+Naive Bayes:\\
+\begin{tabular}{ | l | l | l |}
+  \hline
+  \textbf{Data Set} & \textbf{Apparent Error} & \textbf{True Error} \\ \hline
+  \textit{Mushrooms} & & \\ \hline
+  \textit{Mushrooms} & & \\ \hline
+\end{tabular}
+\\
+K-Nearest Neighbors:\\
+\begin{tabular}{ | l | l | l | l | }
+  \hline			
+  \textbf{Data Set} & Threshold & \textbf{Apparent Error} & \textbf{True Error} \\ \hline
+  \textit{Mushrooms} & 1 & 0 & 0 \\
+    & .1 & & \\
+    & .01 & & \\
+    & .001 & & \\ \hline
+  \textit{Traffic} & 1 & & \\
+    & .1 & & \\
+    & .01 & & \\
+    & .001 & & \\\hline
+\end{tabular}
 \subsection{Naive Bayes}
 \subsubsection{Introduction}
 \subsubsection{Mushroom Data Performance}
