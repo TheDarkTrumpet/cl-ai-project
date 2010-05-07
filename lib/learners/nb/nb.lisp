@@ -106,6 +106,8 @@ of the functions in this file scoped with special data.  Bootstrap just makes th
   (setf *cf* training-set)
   (setf *cv* class-vars)
   (setf *av* attribute-vars)
+  (setf *n-class* nil)
+  (setf *p-class* nil)
   t)
 
 (defun normalize-probability (pc)

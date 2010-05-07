@@ -154,6 +154,8 @@ NIL
     (clear-all-variables)
     (setf *data-set-file* x)
     (run-nb folds)
+    (clear-all-variables)
+    (setf *data-set-file* x)
     (format t "~%~%")
     (dolist (k-values '(1 5))
       (dolist (threshold-val '(1 .1 .01 .001))
