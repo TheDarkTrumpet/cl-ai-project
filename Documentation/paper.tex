@@ -38,9 +38,24 @@ The language I picked for this problem is \textbf{Common Lisp}, the reason why I
 This tarball contains all the files needed to run this application, minus 1.  This applicaton relies on a library called fare-csv.  To install that, you will need to run:
 
 \begin{lstlisting}[frame=single,language=lisp]
-sbcl --dynamic-space-size
+sbcl --dynamic-space-size 1000
 (require :asdf-install)
 (asdf-install:install 'fare-csv)
+\end{lstlisting}
+Note for the above install, you want to select the local install, but also to SKIP-GPG-CHECK.
+
+Outside that, you will also need to symlink the current libraries as well.  You can do that by the following, assuming that the cl-ai-project is in your ROOT home directory (this is pretty important to get the symlinks right or it'll complain loudly later):
+\begin{lstlisting}[frame=single]
+cd ~/.sbcl/systems
+ln -s ~/cl-ai-project/*.asd .
+\end{lstlisting}
+The rest of these instructions require being in sbcl for them to work.  You need to be sure to be in the cl-ai-project directory before beginning since the data files are relative link.  You can run it by typing:
+\begin{lstlisting}[frame=single,language=lisp]
+cd ~/cl-ai-project
+sbcl --dynamic-space-size 1000
+(require :asdf)
+(require :ai)
+(in-package :ai)
 \end{lstlisting}
 
 To run the individual examples, there are a few differnet functions available:
@@ -50,6 +65,10 @@ To run the individual examples, there are a few differnet functions available:
 (run-nn [folds])
 \end{lstlisting}
 
+An example of something easy to run is:
+\begin{lstlisting}[frame=single,language=lisp]
+(run-nb 10)
+\end{lstlisting}
 An example, of running the naive bayes algorithm on the default data, with 10-fold cross validation, would be:
 \begin{lstlisting}[frame=single,language=lisp]
 (run-nb 10)
@@ -79,33 +98,35 @@ Naive Bayes:\\
 \begin{tabular}{ | l | l | l |}
   \hline
   \textbf{Data Set} & \textbf{Apparent Error} & \textbf{True Error} \\ \hline
-  \textit{Mushrooms} & & 91\% \\ \hline
-  \textit{Traffic} & & 80\% \\ \hline
+  \textit{Mushrooms} & 99\% & 91\% \\ \hline
+  \textit{Traffic} & 93.6\% & 80\% \\ \hline
 \end{tabular}
 \\ \\ \\
 K-Nearest Neighbors:\\
 \begin{tabular}{ | l | l | l | l | l | }
   \hline			
   \textbf{Data Set} & Threshold & k & \textbf{Apparent Error} & \textbf{True Error} \\ \hline
-  \textit{Mushrooms} & 1 & 1 & & 74\% \\
-  & & 5 & & 88\% \\
-  & .1 & 1 & & 98\% \\
-  & & 5 & & 94.8\% \\
-  & .01 & 1 & & 96\% \\
-  & & 5 & & 75\% \\
-  & .001 & 1 & & 98\% \\
-  & & 5 & & 96.5\% \\ \hline
-  \textit{Vehicles} & 1 & 1 & & 0\% \\
-  & & 5 & & 93.3\% \\
-  & .1 & 1 & & 91.9\% \\
-  & & 5 & & 93.5\% \\
-  & .01 & 1 & & 89.9\% \\
-  & & 5 & & 93.3\% \\
-  & .001 & 1 & & 92.8\% \\
-  & & 5 & & 93.5\% \\ \hline
+  \textit{Mushrooms} & 1 & 1 & 73\% & 74\% \\
+  & & 5 & 88.5\% & 88\% \\
+  & .1 & 1 & 99.95\% & 98\% \\
+  & & 5 & 100\% & 94.8\% \\
+  & .01 & 1 & 100\% & 96\% \\
+  & & 5 & 100\% & 75\% \\
+  & .001 & 1 & 100\% & 98\% \\
+  & & 5 & 100\% & 96.5\% \\ \hline
+  \textit{Vehicles} & 1 & 1 & 0\% & 0\% \\
+  & & 5 & 93.16\% & 93.3\% \\
+  & .1 & 1 & 82.1\% & 91.9\% \\
+  & & 5 & 93.16\% & 93.5\% \\
+  & .01 & 1 & 89.6\% & 89.9\% \\
+  & & 5 & 92.8\% & 93.3\% \\
+  & .001 & 1 & 93.3\% & 92.8\% \\
+  & & 5 & 93.8\% & 93.5\% \\ \hline
 \end{tabular}
 
-Since the algorithm error rate performance is given above, I'll only discuss execution performance in the upcoming sections.
+A special note to make about the apparent error rates is I could only do it with k=1.  Because of that, the apparent error isn't exactly an accurate estimate.  Training then evaluating over 8000 rows took too many hours to depend on it finishing computing before the evening was over...even though it ran a good 12 hours before I forced it off.  The true error, though, is more accurate of an estimate.  Both of these files are in the Documentation directory, under performance.\\
+
+Since the algorithm error rate performance is given above, I'll only discuss execution performance in the upcoming sections.  The one thing I'll note now though is that there's one giant performance file in the Documentation directory  if you're curious about execution performance in detail.  I go over it a bit here, but there are tidbits about how k and the threshold actually impact the end result as far as the number of cycles and time run. The file is pretty extensive in performance and worth looking at.
 
 \subsection{Naive Bayes}
 In the naive bayes approach, I take the basic idea found from the Orange Data Mining Naive Bayes Tutorial page, located here: http://www.ailab.si/orange/doc/ofb/c\_nb.htm in fact, if you look at the code I wrote, it's structured very similar to how they did it here.  My intention was to refactor the code a bit later, for more performance, but the performance is quite good already.\\
@@ -119,22 +140,18 @@ for i in range(len(domain.attributes)):
                     (n_class[k] + self.m)
 \end{lstlisting}
 For the actual testing, we loop through each attribute in the example, and find the probability of that attribute label with that each class happening - multiply that through each of the attributesin that example and we get values for each class - each class value has a certain probability of happening.  We order this list so that the class label with the greatest probability is at the front and that's the one that example is classified as.  The reason why I keep the other class labels and their probabilities along for the ride is for debugging output or if we wanted to see how likely each class label actually was then we have that option.  My goal in how I wrote this was to return as much information as possible to customize how to output the information.
-\subsubsection{Mushroom Data Performance}
-\textbf{Execution performance} of this algorithm is incredibly quick, around 0.8 seconds for both training and classifying for all 10 iterations.  While this is a lot more than than the weka version, the performance is quite good enough.\\
-\subsubsection{Traffic Data Performance}
-\textbf{Execution performance} of this algorithm is incredibly quick, around 0.8 seconds for both training and classifying for all 10 iterations.  While this is a lot more than than the weka version, the performance is quite good enough.\\
+\subsubsection{Naive Bayes Performance}
+The execution performance of this algorithm is extremely quick - even when computing the apparent error it was pretty snappy.  It would take ~0.8 seconds for both training and classifying on all 10 iterations during cross fold validation.  This is a lot slower than weka, but is still something I'm very pleased with.  I do feel I use a fair bit of memory in all the execution areas of this project - with caching data to increase the speed of execution.  I cache the data set itself into memory, the class, and attribute variables, names of files and so on.
 \subsection{K-Nearest Neighbors}
 I spent a considerable amount of time with this particular algorithm, because of just pure interest in trying to optimize it at least somewhat.  KNN can be a very slow algorithm by default, in that we need to compute the distance from our testing example to the entire trained set.  I did some research about optimizations possible with this - but really settled on an option that I'm fairly happy with.  I introduced in my algorithm a threshold value, where if something is in that general distance that it is ``good enough'' to be closest.  If the threshold is set too high, then my accuracy bombs in this algorithm - but if the threshold is set to around .1 or lower, it seems to be acceptable in terms of performance vs accuracy.  This can further be enhanced by playing with the k-value, which I found that the lower the k as well as the threshold being higher equates out to much better execution performance.  Accuracy is hard, though, so in which looking above we can see that k = 5 gives a little better accuracy than k = 1.  Weka goes with k=1 for default, and that with the treshold makes this a very usable algorithm\\
 \\
 To discuss a bit about the design of this algorithm - I found an interesting site that that discussed the way to deal with the distance of categorical variables is to associate them with the class probability distribution differences between the two attributes.  These attributes are grouped into a vector of positive distances.  After that is done, we loop through this vector summing over all the attribute distances squared.  The algorithm used is from this page: http://horicky.blogspot.com/2009/05/machine-learning-nearest-neighbor.html and basically equates out to:
-\begin{lstlisting}[frame=single,language=python]
+√\begin{lstlisting}[frame=single,language=python]
 sum_over_k(P(class[k] | xai) - P(class[k] | xbi))
 \end{lstlisting}
 The actual training is pretty much trivial - in fact, really the only training that happens is we call the naive bayes attribute-class-probability, which is used in the distance generation.  So performance of training is pretty much as trivial as it gets - but for testing, it's much harder.\\
 \\
 For testing, the general algorithm is simple. For a single test row, I compute the distance from that particular element in our space with every training point available in that space.  Once that's done, I sort the resulting list of distances (more specifically it's a (class . distance) a-list), and chop off the first k elements and just return those.  With the threshold value option, the distances between the two points in the graph is compared to our threshold value.  If it's between 0 and that threshold value, I store it in a special variable.  If that list gets up to k faster than going through every node in our training set, I short circuit out of the loops just returning that list of k values.  This is one of many options for trying to limit the computational intensity of this algorithm.  
 \subsubsection{KNN Performance}
-The general performance of KNN depends on two values in the way I implemented it.  K and our threshold have very large impacts in how this algorithm works.  With k = 5, and the threshold very small (.001), doing 10-fold cross validation could take near an hour to compute.  As I was playing with the options a bit more, I found that the threshold being around .1, and k being 1, performance was quite quick - with fairly decent accuracy to boot.  
-
-
+The general performance of KNN depends on two values in the way I implemented it.  K and our threshold have very large impacts in how this algorithm works.  With k = 5, and the threshold very small (.001), doing 10-fold cross validation could take near an hour to compute.  As I was playing with the options a bit more, I found that the threshold being around .1, and k being 1, performance was quite quick - with fairly decent accuracy to boot.  Unfortunately both the k and the threshold really depend on the data set...as the table above shows.
 \end{document}
