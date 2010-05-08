@@ -1,0 +1,199 @@
+AI> (run-everything :folds 1)
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Naive Bayes
+Classification algorithm finished:
+Accuracy Listing: 0.9995076, 
+Accuracy Average: 0.9995076
+----------
+Details returned:
+Correct Classifications: 8120, 0.9995076
+Incorrect Classifications: 4, 4.923683e-4
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=1 and threshold=1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.73375183, 
+Accuracy Average: 0.73375183
+----------
+Details returned:
+Correct Classifications: 5961, 0.73375183
+Incorrect Classifications: 2163, 0.26624817
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=1 and threshold=0.1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.9995076, 
+Accuracy Average: 0.9995076
+----------
+Details returned:
+Correct Classifications: 8120, 0.9995076
+Incorrect Classifications: 4, 4.923683e-4
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=1 and threshold=0.01
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.0, 
+Accuracy Average: 1.0
+----------
+Details returned:
+Correct Classifications: 8124, 1.0
+Incorrect Classifications: 0, 0.0
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=1 and threshold=0.001
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.0, 
+Accuracy Average: 1.0
+----------
+Details returned:
+Correct Classifications: 8124, 1.0
+Incorrect Classifications: 0, 0.0
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=5 and threshold=1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.8849089, 
+Accuracy Average: 0.8849089
+----------
+Details returned:
+Correct Classifications: 7189, 0.8849089
+Incorrect Classifications: 935, 0.115091085
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=5 and threshold=0.1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.0, 
+Accuracy Average: 1.0
+----------
+Details returned:
+Correct Classifications: 8124, 1.0
+Incorrect Classifications: 0, 0.0
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=5 and threshold=0.01
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.0, 
+Accuracy Average: 1.0
+----------
+Details returned:
+Correct Classifications: 8124, 1.0
+Incorrect Classifications: 0, 0.0
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv -- Nearest Neighbors with, k=5 and threshold=0.001
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.0, 
+Accuracy Average: 1.0
+----------
+Details returned:
+Correct Classifications: 8124, 1.0
+Incorrect Classifications: 0, 0.0
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Naive Bayes
+Classification algorithm finished:
+Accuracy Listing: 0.9355689, 
+Accuracy Average: 0.9355689
+----------
+Details returned:
+Correct Classifications: 4966, 0.9355689
+Incorrect Classifications: 342, 0.06443105
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=1 and threshold=1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 1.8839487e-4, 
+Accuracy Average: 1.8839487e-4
+----------
+Details returned:
+Correct Classifications: 1, 1.8839487e-4
+Incorrect Classifications: 5307, 0.9998116
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=1 and threshold=0.1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.8210249, 
+Accuracy Average: 0.8210249
+----------
+Details returned:
+Correct Classifications: 4358, 0.8210249
+Incorrect Classifications: 950, 0.17897514
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=1 and threshold=0.01
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.89600605, 
+Accuracy Average: 0.89600605
+----------
+Details returned:
+Correct Classifications: 4756, 0.89600605
+Incorrect Classifications: 552, 0.103993975
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=1 and threshold=0.001
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.93330824, 
+Accuracy Average: 0.93330824
+----------
+Details returned:
+Correct Classifications: 4954, 0.93330824
+Incorrect Classifications: 354, 0.066691786
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=5 and threshold=1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.9316127, 
+Accuracy Average: 0.9316127
+----------
+Details returned:
+Correct Classifications: 4945, 0.9316127
+Incorrect Classifications: 363, 0.06838734
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=5 and threshold=0.1
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.9316127, 
+Accuracy Average: 0.9316127
+----------
+Details returned:
+Correct Classifications: 4945, 0.9316127
+Incorrect Classifications: 363, 0.06838734
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=5 and threshold=0.01
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.9280332, 
+Accuracy Average: 0.9280332
+----------
+Details returned:
+Correct Classifications: 4926, 0.9280332
+Incorrect Classifications: 382, 0.07196684
+
+
+Processing CSV: /Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv -- Nearest Neighbors with, k=5 and threshold=0.001
+Running fold #:1
+Classification algorithm finished:
+Accuracy Listing: 0.9380181, 
+Accuracy Average: 0.9380181
+----------
+Details returned:
+Correct Classifications: 4979, 0.9380181
+Incorrect Classifications: 329, 0.061981913
+
+
+NIL
+AI> 
