@@ -6,7 +6,8 @@
 
 (in-package :ai)
 
-(defvar *data-set-file* #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv")
+(defvar *data-set-file* #P"data/mushrooms/agaricus-lepiota.csv")
+;(defvar *data-set-file* #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv")
 ;(defvar *data-set-file* #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv")
 
 (defvar *cached-variables* nil

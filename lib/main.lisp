@@ -148,8 +148,9 @@ NIL
 
 ;;;;;;; RUN BOTH ;;;;;;;;
 (defun run-everything (&key (folds 10))
-  (dolist (x '(#P"/Users/dthole/programming/common-lisp/cl-ai-project/data/mushrooms/agaricus-lepiota.csv"
-	       #P"/Users/dthole/programming/common-lisp/cl-ai-project/data/traffic/vehicles.csv"))
+  "This functions runs everything that goes into the whole performance data files.  It's fairly simple, all it does is iterate through each CSV, does NB, then for k = 1, k = 5, threshold = 1, .1, 01, and .001 then will run nearest neighbors - producting stats as it goes.  This process takes a LONG time,e ven with folds being very small.  This will either give apparent or true error results, with a special branch (that's not included) being used for the apparent errors cine the testing set assignment above is to the whole data set."
+  (dolist (x '(#P"data/mushrooms/agaricus-lepiota.csv"
+	       #P"data/traffic/vehicles.csv"))
     (format t "Processing CSV: ~a -- Naive Bayes~%" x)
     (clear-all-variables)
     (setf *data-set-file* x)
